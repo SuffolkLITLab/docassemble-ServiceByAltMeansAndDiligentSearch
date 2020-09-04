@@ -1,0 +1,642 @@
+comment: |
+  The metadata section controls the tab title and saved interview title. You can delete this section if you include this YAML file in another YAML file.
+metadata:
+  title: |
+    Motion For Service By Alternate Means and Affidavit of Diligent Search
+  short title: |
+    Service by Alternate Means and Diligent Search
+---
+comment: |
+  This section is used by MAVirtualCourts to control how some of the questions work.
+mandatory: True
+code: |
+  interview_metadata # make sure we initialize the object
+  if not defined("interview_metadata['service_by_alternate_means_diligent_search']"):
+    interview_metadata.initializeObject('service_by_alternate_means_diligent_search')
+  interview_metadata['service_by_alternate_means_diligent_search'].update({
+    'title': 'Motion For Service By Alternate Means and Affidavit of Diligent Search',
+    'short title': 'Service by Alternate Means and Diligent Search',
+    'description': 'If the sheriff could not serve the defendant with a Divorce / Separate Support Summons in person or if you do not know where the Defendant lives, ask the court for an order for Alternate Service by Publication and Mailing. This order tells you to publish the summons in the newspaper and mail the summons and complaint to the defendant at the last address you have for him or her.',
+    'original_form': 'https://www.masslegalhelp.org/family/cjp31-motion-for-service-by-alternate-means-and-affidavit-of-diligent-search-sample.pdf',
+    'allowed courts': [
+      'Probate and Family Court',
+    ],
+    'categories': [
+      'Family Law',
+    ],
+    'logic block variable': 'service_by_alternate_means_diligent_search',
+    'attachment block variable': 'service_by_alternate_means_diligent_search_attachment',
+    'typical role': 'plaintiff',
+  })
+---
+include:
+  - docassemble.MAVirtualCourt:basic-questions.yml
+---
+features: 
+  navigation: True
+---
+sections:
+  - review_service_by_alternate_means_diligent_search: Review your answers
+---
+id: order block
+code: |
+  # This is a placeholder to control logic flow in this interview
+
+  basic_questions_intro_screen 
+  service_by_alternate_means_diligent_search_intro
+  # Set the preferred/allowed courts for this interview
+  allowed_courts = interview_metadata["service_by_alternate_means_diligent_search"]["allowed courts"]
+  nav.set_section('review_service_by_alternate_means_diligent_search')
+  user_ask_role
+  case_name1
+  docket_number
+  What_is_the_defendants_last_known_address
+  date_last_known
+  last_contact_date
+  check_phone_text
+  phone_response
+  email_response
+  social_media_site1
+  webstie_name1
+  friend_contacted1
+  sheriff_check
+  BBO_number
+  user_address
+  case_name2
+  str(courts[0])
+  courts[0].division
+  str(defendants[0])
+  defendants[0].address.address
+  defendants[0].phone_number
+  defendants[0].email
+  signature_date
+  str(users[0])
+  users[0].address.city
+  users[0].address.state
+  users[0].address.zip
+  users[0].phone_number
+  users[0].email
+  service_by_alternate_means_diligent_search_preview_question # Pre-canned preview screen
+  basic_questions_signature_flow
+  users[0].signature
+  service_by_alternate_means_diligent_search = True
+---
+comment: |
+  This question is used to introduce your interview. Please customize
+id: Motion For Service By Alternate Means and Affidavit of Diligent Search
+continue button field: service_by_alternate_means_diligent_search_intro
+question: |
+  Motion For Service By Alternate Means and Affidavit of Diligent Search
+subquestion: |
+  If the sheriff could not serve the defendant with a Divorce / Separate Support Summons in person or if you do not know where the Defendant lives, ask the court for an order for Alternate Service by Publication and Mailing. This order tells you to publish the summons in the newspaper and mail the summons and complaint to the defendant at the last address you have for him or her.
+---
+id: Placeholder preview screen
+continue button field: service_by_alternate_means_diligent_search_preview_question
+question: |
+  Placeholder preview screen
+subquestion: |
+  Here is a preview of the form you'll sign on the next page. 
+  
+   ${service_by_alternate_means_diligent_search_attachment['preview']}
+---
+id: What is the name of your case?
+question: |
+  What is the name of your case?
+subquestion: |
+  Typically it is...
+fields:
+  - 'case name': case_name1
+---
+id: What would you like to request the court allow you to do?
+continue button field: What_would_you_like_to_request_the_court_allow_you_to_do
+question: |
+  What would you like to request the court allow you to do?
+subquestion: |
+  Placeholder text
+fields:
+  - 'Publication only': publication_only
+    datatype: yesno
+  - 'Publication mail': publication_mail
+    datatype: yesno
+  - 'Other means': other_means
+    datatype: yesno
+  - 'Specify service': specify_service
+    datatype: yesno
+  - 'Instruct service': instruct_service
+    datatype: yesno
+  - 'Specify info': specify_info
+---
+id: What is the defendant's last known address?
+continue button field: What_is_the_defendants_last_known_address
+question: |
+  What is the defendant's last known address?
+subquestion: |
+  Placeholder text
+fields:
+  - 'Address unknown': address_unknown
+    datatype: yesno
+  - 'Defendant city': defendant_city
+  - 'Defendant state': defendant_state
+  - 'Defendant zip': defendant_zip
+---
+id: When did the defendant last live at this address?
+question: |
+  When did the defendant last live at this address?
+subquestion: |
+  repeat that address back to the user
+fields:
+  - 'Date last known': date_last_known
+---
+id: What is the last time you saw, heard from, or had contact with the defendant?
+question: |
+  What is the last time you saw, heard from, or had contact with the defendant?
+subquestion: |
+  exact date or approximate
+fields:
+  - 'Date of last contact': last_contact_date
+    datatype: date
+---
+id: What efforts have you taken to find the defendant?
+question: |
+  What efforts have you taken to find the defendant?
+subquestion: |
+  Check all that apply
+fields:
+  - 'By phone or text': check_phone_text
+    datatype: yesnowide
+  - 'By email': check_email
+    datatype: yesnowide
+  - 'By social': social_check
+    datatype: yesnowide
+  - 'By internet search': internet_search_check
+    datatype: yesnowide
+  - 'Child support check': child_support_check
+    datatype: yesnowide
+  - 'By friends family ': friends_family_check
+    datatype: yesnowide
+  - 'Military check': military_check
+    datatype: yesnowide
+  - 'Other contact check': other_contact_check
+    datatype: yesnowide
+---
+id: Tell the court about when you tried to contact the defendant by phone
+question: |
+  Tell the court about when you tried to contact the defendant by phone
+subquestion: |
+  please provide the telephone number you attempted to text/call and if you recieved a response
+fields:
+  - 'Defendant phone number': defendants[0].phone_number
+  - 'Response to phone contact': phone_response
+---
+id: Tell the court about when you tried to contact the defendant by email
+question: |
+  Tell the court about when you tried to contact the defendant by email
+subquestion: |
+  include email field - need email and response field
+fields:
+  - 'What is the defendant email': defendants[0].email
+  - 'Email response': email_response
+---
+id: social media
+question: |
+  Tell the court about when you tried to contact the defendant through social meida
+subquestion: |
+  do add another
+fields:
+  - 'Social media site1': social_media_site1
+  - 'Social date1': social_date1
+  - 'Social response1': social_response1
+  - 'Social media site2': social_media_site2
+  - 'Social date2': social_date2
+  - 'Social response2': social_response2
+---
+id: Tell the court about when you tried to contact the defendant by searching the internet
+question: |
+  Tell the court about when you tried to contact the defendant by searching the internet
+subquestion: |
+  Placeholder text
+fields:
+  - 'Webstie name1': webstie_name1
+  - 'Website date1': website_date1
+  - 'Website response1': website_response1
+  - 'Webstie name2': webstie_name2
+  - 'Webstie date2': webstie_date2
+  - 'Website response2': website_response2
+---
+id: Tell the court about when you tried to contact the defendant through friends, family, employer, landlord, neighbors
+question: |
+  Tell the court about when you tried to contact the defendant through friends, family, employer, landlord, neighbors
+subquestion: |
+  Placeholder text
+fields:
+  - 'Friend contacted1': friend_contacted1
+  - 'Relationship name1': relationship_name1
+  - 'Relationship date1': relationship_date1
+  - 'Relationship info1': relationship_info1
+  - 'Friend contacted2': friend_contacted2
+  - 'Relationship name2': relationship_name2
+  - 'Relationship date2': relationship_date2
+  - 'Relationship infor2': relationship_infor2
+---
+id: What attempts have you made to serve, if applicable
+question: |
+  What attempts have you made to serve, if applicable
+subquestion: |
+  Placeholder text
+fields:
+  - 'Sheriff check': sheriff_check
+    datatype: yesno
+  - 'No attempt check': no_attempt_check
+    datatype: yesno
+---
+id: Please provide your BBO number for the court
+question: |
+  Please provide your BBO number for the court
+subquestion: |
+  Placeholder text
+fields:
+  - 'Bbo number': BBO_number
+---
+id: What is your address
+question: |
+  What is your address
+subquestion: |
+  Placeholder text
+fields:
+  - 'User address': user_address
+  - 'User address unit': user_address_unit
+---
+id: case name repeats
+question: |
+  case name repeats
+subquestion: |
+  Placeholder text
+fields:
+  - 'Case name2': case_name2
+  - 'Case name3': case_name3
+
+---
+id: docket number repeats
+question: |
+  docket number repeats
+subquestion: |
+  Placeholder text
+fields:
+  - 'docket number': docket_number
+---
+progress: 100
+mandatory: True
+id: Placeholder download screen
+question: |
+  Placeholder download screen
+subquestion: |
+  Placeholder
+  
+  ### Next steps
+  
+  1. Step 1
+  1. Step 2
+  
+  Below is a preview of your form.
+  
+  ${service_by_alternate_means_diligent_search_attachment['final'] }
+need: service_by_alternate_means_diligent_search
+attachment code: service_by_alternate_means_diligent_search_attachment['final']
+---
+objects:
+  - service_by_alternate_means_diligent_search_attachment: DADict
+---
+attachment:
+    variable name: service_by_alternate_means_diligent_search_attachment[i]
+    name: Service by Alternate Means and Diligent Search
+    filename: Service_by_Alternate_Means_and_Diligent_Search
+    skip undefined: True
+    pdf template file: service_by_alternate_means_diligent_search.pdf
+    fields: 
+      - "docket_number": ${ docket_number }
+      - "court_name": ${ str(courts[0]) }
+      - "court_division": ${ courts[0].division }
+      - "defendant_name": ${ str(defendants[0]) }
+      - "defendant_address_street": ${ defendants[0].address.address }
+      - "defendant_phone": ${ defendants[0].phone_number }
+      - "defendant_email": ${ defendants[0].email }
+      - "docket_number": ${ docket_number }
+      - "docket_number": ${ docket_number }
+      # If it is a signature, test which file version we're expecting. leave it empty unless it's the final attachment version
+      - "user_signature": ${ users[0].signature if i == 'final' else '' }
+      - "signature_date": ${ signature_date }
+      - "user_name": ${ str(users[0]) }
+      - "user_address_city": ${ users[0].address.city }
+      - "user_address_state": ${ users[0].address.state }
+      - "user_address_zip": ${ users[0].address.zip }
+      - "user_phone": ${ users[0].phone_number }
+      - "user_email": ${ users[0].email }
+      - "case_name1": ${ case_name1 }
+      - "publication_only": ${ publication_only }
+      - "publication_mail": ${ publication_mail }
+      - "other_means": ${ other_means }
+      - "specify_service": ${ specify_service }
+      - "instruct_service": ${ instruct_service }
+      - "specify_info": ${ specify_info }
+      - "address_unknown": ${ address_unknown }
+      - "defendant_city": ${ defendant_city }
+      - "defendant_state": ${ defendant_state }
+      - "defendant_zip": ${ defendant_zip }
+      - "date_last_known": ${ date_last_known }
+      - "last_contact_date": ${ last_contact_date }
+      - "check_phone_text": ${ check_phone_text }
+      - "phone_response": ${ phone_response }
+      - "check_email": ${ check_email }
+      - "email_response": ${ email_response }
+      - "case_name2": ${ case_name2 }
+      - "social_check": ${ social_check }
+      - "social_media_site1": ${ social_media_site1 }
+      - "social_date1": ${ social_date1 }
+      - "social_response1": ${ social_response1 }
+      - "social_media_site2": ${ social_media_site2 }
+      - "social_date2": ${ social_date2 }
+      - "social_response2": ${ social_response2 }
+      - "internet_search_check": ${ internet_search_check }
+      - "webstie_name1": ${ webstie_name1 }
+      - "website_date1": ${ website_date1 }
+      - "website_response1": ${ website_response1 }
+      - "webstie_name2": ${ webstie_name2 }
+      - "webstie_date2": ${ webstie_date2 }
+      - "website_response2": ${ website_response2 }
+      - "child_support_check": ${ child_support_check }
+      - "friends_family_check": ${ friends_family_check }
+      - "friend_contacted1": ${ friend_contacted1 }
+      - "relationship_name1": ${ relationship_name1 }
+      - "relationship_date1": ${ relationship_date1 }
+      - "relationship_info1": ${ relationship_info1 }
+      - "friend_contacted2": ${ friend_contacted2 }
+      - "relationship_name2": ${ relationship_name2 }
+      - "relationship_date2": ${ relationship_date2 }
+      - "relationship_infor2": ${ relationship_infor2 }
+      - "military_check": ${ military_check }
+      - "other_contact_check": ${ other_contact_check }
+      - "sheriff_check": ${ sheriff_check }
+      - "no_attempt_check": ${ no_attempt_check }
+      - "case_name3": ${ case_name3 }
+      - "user_address": ${ user_address }
+      - "user_address_unit": ${ user_address_unit }
+      - "BBO_number": ${ BBO_number }
+---
+id: service_by_alternate_means_diligent_search review screen
+event: review_service_by_alternate_means_diligent_search
+question: |
+  Placeholder Review Screen
+subquestion: |
+  Edit your answers below
+review: 
+  - Edit: case_name1
+    button: |
+      case name:
+      ${ case_name1 }
+  - Edit: publication_only
+    button: |
+      Publication only:
+      ${ word(yesno(publication_only)) }
+  - Edit: publication_mail
+    button: |
+      Publication mail:
+      ${ word(yesno(publication_mail)) }
+  - Edit: other_means
+    button: |
+      Other means:
+      ${ word(yesno(other_means)) }
+  - Edit: specify_service
+    button: |
+      Specify service:
+      ${ word(yesno(specify_service)) }
+  - Edit: instruct_service
+    button: |
+      Instruct service:
+      ${ word(yesno(instruct_service)) }
+  - Edit: specify_info
+    button: |
+      Specify info:
+      ${ specify_info }
+  - Edit: address_unknown
+    button: |
+      Address unknown:
+      ${ word(yesno(address_unknown)) }
+  - Edit: defendant_city
+    button: |
+      Defendant city:
+      ${ defendant_city }
+  - Edit: defendant_state
+    button: |
+      Defendant state:
+      ${ defendant_state }
+  - Edit: defendant_zip
+    button: |
+      Defendant zip:
+      ${ defendant_zip }
+  - Edit: date_last_known
+    button: |
+      Date last known:
+      ${ date_last_known }
+  - Edit: last_contact_date
+    button: |
+      Date of last contact:
+      ${ last_contact_date.format() }
+  - Edit: check_phone_text
+    button: |
+      Check phone text:
+      ${ word(yesno(check_phone_text)) }
+  - Edit: phone_response
+    button: |
+      Phone response:
+      ${ phone_response }
+  - Edit: check_email
+    button: |
+      Check email:
+      ${ word(yesno(check_email)) }
+  - Edit: email_response
+    button: |
+      Email response:
+      ${ email_response }
+  - Edit: case_name2
+    button: |
+      Case name2:
+      ${ case_name2 }
+  - Edit: social_check
+    button: |
+      Social check:
+      ${ word(yesno(social_check)) }
+  - Edit: social_media_site1
+    button: |
+      Social media site1:
+      ${ social_media_site1 }
+  - Edit: social_date1
+    button: |
+      Social date1:
+      ${ social_date1 }
+  - Edit: social_response1
+    button: |
+      Social response1:
+      ${ social_response1 }
+  - Edit: social_media_site2
+    button: |
+      Social media site2:
+      ${ social_media_site2 }
+  - Edit: social_date2
+    button: |
+      Social date2:
+      ${ social_date2 }
+  - Edit: social_response2
+    button: |
+      Social response2:
+      ${ social_response2 }
+  - Edit: internet_search_check
+    button: |
+      Internet search check:
+      ${ word(yesno(internet_search_check)) }
+  - Edit: webstie_name1
+    button: |
+      Webstie name1:
+      ${ webstie_name1 }
+  - Edit: website_date1
+    button: |
+      Website date1:
+      ${ website_date1 }
+  - Edit: website_response1
+    button: |
+      Website response1:
+      ${ website_response1 }
+  - Edit: webstie_name2
+    button: |
+      Webstie name2:
+      ${ webstie_name2 }
+  - Edit: webstie_date2
+    button: |
+      Webstie date2:
+      ${ webstie_date2 }
+  - Edit: website_response2
+    button: |
+      Website response2:
+      ${ website_response2 }
+  - Edit: child_support_check
+    button: |
+      Child support check:
+      ${ word(yesno(child_support_check)) }
+  - Edit: friends_family_check
+    button: |
+      Friends family check:
+      ${ word(yesno(friends_family_check)) }
+  - Edit: friend_contacted1
+    button: |
+      Friend contacted1:
+      ${ friend_contacted1 }
+  - Edit: relationship_name1
+    button: |
+      Relationship name1:
+      ${ relationship_name1 }
+  - Edit: relationship_date1
+    button: |
+      Relationship date1:
+      ${ relationship_date1 }
+  - Edit: relationship_info1
+    button: |
+      Relationship info1:
+      ${ relationship_info1 }
+  - Edit: friend_contacted2
+    button: |
+      Friend contacted2:
+      ${ friend_contacted2 }
+  - Edit: relationship_name2
+    button: |
+      Relationship name2:
+      ${ relationship_name2 }
+  - Edit: relationship_date2
+    button: |
+      Relationship date2:
+      ${ relationship_date2 }
+  - Edit: relationship_infor2
+    button: |
+      Relationship infor2:
+      ${ relationship_infor2 }
+  - Edit: military_check
+    button: |
+      Military check:
+      ${ word(yesno(military_check)) }
+  - Edit: other_contact_check
+    button: |
+      Other contact check:
+      ${ word(yesno(other_contact_check)) }
+  - Edit: sheriff_check
+    button: |
+      Sheriff check:
+      ${ word(yesno(sheriff_check)) }
+  - Edit: no_attempt_check
+    button: |
+      No attempt check:
+      ${ word(yesno(no_attempt_check)) }
+  - Edit: case_name3
+    button: |
+      Case name3:
+      ${ case_name3 }
+  - Edit: user_address
+    button: |
+      User address:
+      ${ user_address }
+  - Edit: user_address_unit
+    button: |
+      User address unit:
+      ${ user_address_unit }
+  - Edit: BBO_number
+    button: |
+      Bbo number:
+      ${ BBO_number }
+  - Edit: docket_number_2
+    button: |
+      ${ docket_number_2 }
+  - Edit: courts[0]
+    button: |
+      ${ courts[0] }
+  - Edit: courts[0].division
+    button: |
+      ${ courts[0].division }
+  - Edit: defendants[0]
+    button: |
+      ${ defendants[0] }
+  - Edit: defendants[0].address.address
+    button: |
+      ${ defendants[0].address.address }
+  - Edit: defendants[0].phone_number
+    button: |
+      ${ defendants[0].phone_number }
+  - Edit: defendants[0].email
+    button: |
+      ${ defendants[0].email }
+  - Edit: docket_number_1
+    button: |
+      ${ docket_number_1 }
+  - Edit: docket_number3
+    button: |
+      ${ docket_number_3 }
+  - Edit: users[0].signature
+    button: |
+      ${ users[0].signature }
+  - Edit: signature_date
+    button: |
+      ${ signature_date }
+  - Edit: users[0]
+    button: |
+      ${ users[0] }
+  - Edit: users[0].address.city
+    button: |
+      ${ users[0].address.city }
+  - Edit: users[0].address.state
+    button: |
+      ${ users[0].address.state }
+  - Edit: users[0].address.zip
+    button: |
+      ${ users[0].address.zip }
+  - Edit: users[0].phone_number
+    button: |
+      ${ users[0].phone_number }
+  - Edit: users[0].email
+    button: |
+      ${ users[0].email }
