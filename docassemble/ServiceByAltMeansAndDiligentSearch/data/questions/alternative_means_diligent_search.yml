@@ -38,6 +38,7 @@ features:
 sections:
   - review_service_by_alternate_means_diligent_search: Review your answers
 ---
+mandatory: True
 id: order block
 code: |
   # This is a placeholder to control logic flow in this interview
@@ -47,9 +48,16 @@ code: |
   # Set the preferred/allowed courts for this interview
   allowed_courts = interview_metadata["service_by_alternate_means_diligent_search"]["allowed courts"]
   nav.set_section('review_service_by_alternate_means_diligent_search')
+  users.there_is_another
   docket_number
   case_name
   publication_only
+  user_ask_role
+  users[0].name.first
+  str(users[0])
+  users[0].address.city
+  users[0].phone_number
+  users[0].email
   str(defendants[0])
   defendants[0].phone_number
   defendants[0].email
@@ -66,12 +74,6 @@ code: |
   BBO_number
   str(courts[0])
   courts[0].division
-  str(users[0])
-  users[0].name.first
-  users[0].name.first
-  users[0].address.city
-  users[0].phone_number
-  users[0].email
   signature_date
   service_by_alternate_means_diligent_search_preview_question # Pre-canned preview screen
   basic_questions_signature_flow
@@ -424,7 +426,7 @@ attachment:
 ---
 id: any other users
 question: |
-  Did anyone else file with you?
+  Who are you? Is this for you or are you helping someone?
 subquestion: |
   % if len(users.elements) > 1:
   You have already told us about ${comma_and_list(users.complete_elements())}.
@@ -434,6 +436,7 @@ subquestion: |
   
   Is anyone else on your side of this case?
 yesno: users.there_is_another
+#comment Reminder to reword and rework for two paths.
 ---
 id: names of opposing parties
 question: |
