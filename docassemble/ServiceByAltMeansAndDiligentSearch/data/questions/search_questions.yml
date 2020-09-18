@@ -1,0 +1,129 @@
+---
+#comment: questions about the search only
+---
+id: date last contact
+question: |
+  What is the last time you saw, heard from, or had contact with the defendant?
+subquestion: |
+  This date can be the exact date or your best guess. 
+fields:
+  - 'Date of last contact': last_contact_date
+    datatype: date
+---
+id: efforts taken
+question: |
+  What efforts have you taken to find the defendant?
+subquestion: |
+  Check all that apply
+fields:
+  - 'By phone or text': check_phone_text
+    datatype: yesnowide
+  - 'By email': check_email
+    datatype: yesnowide
+  - 'By social': social_check
+    datatype: yesnowide
+  - 'By internet search': internet_search_check
+    datatype: yesnowide
+  - 'Child support check': child_support_check
+    datatype: yesnowide
+  - 'By friends family ': friends_family_check
+    datatype: yesnowide
+  - 'Military check': military_check
+    datatype: yesnowide
+  - 'Other contact check': other_contact_check
+    datatype: yesnowide  
+---
+id: tried by phone
+question: |
+  Tell the court about when you tried to contact the defendant by phone 
+subquestion: |
+  Please provide the telephone number you tried to text or call and if you recieved a reply
+fields:
+  - Defendant phone number: defendants[0].phone_number
+  - Response to phone call or text: phone_response
+---
+id: contact by email
+question: |
+  Tell the court about when you tried to contact the defendant by email
+subquestion: |
+  Please provide  DEF NAME email address you used to  and if you recieved a reply
+fields:
+  - Defendant's email: defendants[0].email
+  - Response to email : email_response
+---
+id: social media
+question: |
+  Tell the court about when you tried to contact the defendant through social meida
+subquestion: |
+   Provide the social media you reached out on, the date of the contact, and if you recieved a reply  
+fields:
+  - Social media site: social_media_site1
+    required: False
+  - Date you tried to contact: social_date1
+    datatype: date 
+    required: False
+  - Social response: social_response1
+    required: False
+  - Social media site: social_media_site2
+    required: False
+  - Date you tried this contact: social_date2
+    datatype: date
+    required: False
+  - Social response: social_response2
+    required: False
+---
+id: internet search
+question: |
+  Tell the court about when you tried to contact the defendant by searching the internet
+subquestion: |
+   Provide the social media you reached out on, the date of the contact, and if you recieved a reply 
+fields:
+  - 'Website name': website_name1
+    required: False
+  - 'Date you tried website contact': website_date1
+    datatype: date
+    required: False
+  - 'Website response': website_response1
+    required: False
+  - 'Website name': website_name2
+    required: False
+  - 'Date you tried website contact': website_date2
+    datatype: date
+    required: False
+  - 'Website response': website_response2
+    required: False
+---
+id: friends and family
+question: |
+  Tell the court about when you tried to contact the defendant through friends, family, employer, landlord, neighbors
+fields:
+  - 'Person contacted': friend_contacted1
+    required: False
+  - 'Relationship to defendant': relationship_name1
+    required: False
+  - 'Date contacted': relationship_date1
+    datatype: date
+    required: False
+  - 'Response from this person': relationship_info1
+    required: False
+  - 'Person contacted': friend_contacted2
+    required: False
+  - 'Relationship to defendant': relationship_name2
+    required: False
+  - 'Date contacted': relationship_date2
+    datatype: date
+    required: False
+  - 'Response from this person': relationship_infor2
+    required: False
+---
+id: attempts to serve
+question: |
+  Have you tried to tell DEFENDANT about this case?
+subquestion: | 
+  This is called "serving" the defendant
+fields:
+  - 'Sheriff ': sheriff_check
+    datatype: yesnowide
+  - 'No attempt ': no_attempt_check
+    datatype: yesnowide
+# comment: make either or, can't check both 

@@ -1,3 +1,11 @@
+---
+include:
+  - docassemble.MAVirtualCourt:basic-questions.yml
+  - user_information.yml
+  - about_the_case.yml
+  - search_questions.yml
+  - review_screens.yml
+---
 comment: |
   The metadata section controls the tab title and saved interview title. You can delete this section if you include this YAML file in another YAML file.
 metadata:
@@ -52,7 +60,7 @@ code: |
   docket_number
   case_name
   publication_only
-  user_ask_role
+  user_ask_role = 'plaintiff'
   users[0].name.first
   str(users[0])
   users[0].address.city
@@ -68,7 +76,7 @@ code: |
   phone_response
   email_response
   social_media_site1
-  webstie_name1
+  website_name1
   friend_contacted1
   sheriff_check
   BBO_number
@@ -97,234 +105,9 @@ subquestion: |
   Here is a preview of the form you'll sign on the next page. 
   
    ${service_by_alternate_means_diligent_search_attachment['preview']}
----
-id: What is the name of your case?
-question: |
-  What is the name of your case?
-fields:
-  - Case Name: case_name
----
-id: ask court
-continue button field:         
-  What_would_you_like_to_request_the_court_allow_you_to_do
-question: |
-  What would you like to request the court allow you to do?
-subquestion: |
-  Placeholder text
-fields:
-  - 'Provide service by publication in the newspaper': publication_only
-    datatype: yesnowide
-  - Provide service by publication in the newspaper and mailing the defendant: publication_mail
-    datatype: yesnowide
-  - Provide service by other means not prohibited by law: other_means
-    datatype: yesnowide
-  - Specify service: specify_service
-    datatype: yesnowide
-    required: False
-  - Instruct me on service': instruct_service
-    datatype: yesnowide
-    required: False
-  - Specify info: specify_info
-    required: False
----
-id: defendant last known address
-generic object: Individual
-question: |
-  What is ${ x.possessive('last known address') }?
-fields:
-  - Address unknown: address_unknown
-    datatype: yesnowide
-  - Street address: defendant.address.address
-    address autocomplete: True
-  - Unit: defendant.address.unit
-    required: False
-  - City: defendant.address.city
-  - State: defendant.address.state
-    default: MA   
-    code: |
-      states_list()   
-  - Zip: defendant.address.zip
-    required: False
-#fields:
-#  - 'Address unknown': address_unknown
-#    datatype: yesnowide
-#  - 'Defendant street address': defendant_address
-#  - 'Unita and apartment or unit number': defendant_address 
-#  - 'Defendant city': defendant_city
-#  - 'Defendant state': defendant_state
-#  - 'Defendant zip': defendant_zip
----
-id: When did the defendant last live at this address?
-question: |
-  When did  ${ other_parties[1-1].name } last live at ${ other_parties[1-1].address } ?
-subquestion: |
-  This can be a guess or the exact date 
-fields:
-  - 'Date': date_last_known
-    datatype: date
----
-id: What is the last time you saw, heard from, or had contact with the defendant?
-question: |
-  What is the last time you saw, heard from, or had contact with the defendant?
-subquestion: |
-  This date can be the exact date or your best guess. 
-fields:
-  - 'Date of last contact': last_contact_date
-    datatype: date
----
-id: What efforts have you taken to find the defendant?
-question: |
-  What efforts have you taken to find the defendant?
-subquestion: |
-  Check all that apply
-fields:
-  - 'By phone or text': check_phone_text
-    datatype: yesnowide
-  - 'By email': check_email
-    datatype: yesnowide
-  - 'By social': social_check
-    datatype: yesnowide
-  - 'By internet search': internet_search_check
-    datatype: yesnowide
-  - 'Child support check': child_support_check
-    datatype: yesnowide
-  - 'By friends family ': friends_family_check
-    datatype: yesnowide
-  - 'Military check': military_check
-    datatype: yesnowide
-  - 'Other contact check': other_contact_check
-    datatype: yesnowide
----
-id: tried by phone
-question: |
-  Tell the court about when you tried to contact the defendant by phone 
-subquestion: |
-  Please provide the telephone number you tried to text or call and if you recieved a reply
-fields:
-  - Defendant phone number: defendants[0].phone_number
-  - Response to phone call or text: phone_response
 
----
-id: Tell the court about when you tried to contact the defendant by email
-question: |
-  Tell the court about when you tried to contact the defendant by email
-subquestion: |
-  Please provide  DEF NAME email address you used to  and if you recieved a reply
-fields:
-  - Defendant's email: defendants[0].email
-  - Response to email : email_response
----
-id: social media
-question: |
-  Tell the court about when you tried to contact the defendant through social meida
-subquestion: |
-   Provide the social media you reached out on, the date of the contact, and if you recieved a reply  
-fields:
-  - Social media site: social_media_site1
-    required: False
-  - Date you tried to contact: social_date1
-    datatype: date 
-    required: False
-  - Social response: social_response1
-    required: False
-  - Social media site: social_media_site2
-    required: False
-  - Date you tried this contact: social_date2
-    datatype: date
-    required: False
-  - Social response: social_response2
-    required: False
----
-id: internet search
-question: |
-  Tell the court about when you tried to contact the defendant by searching the internet
-subquestion: |
-   Provide the social media you reached out on, the date of the contact, and if you recieved a reply 
-fields:
-  - 'Webstie name': webstie_name1
-    required: False
-  - 'Date you tried website contact': website_date1
-    datatype: date
-    required: False
-  - 'Website response': website_response1
-    required: False
-  - 'Webstie name': webstie_name2
-    required: False
-  - 'Date you tried website contact': webstie_date2
-    datatype: date
-    required: False
-  - 'Website response': website_response2
-    required: False
----
-id: friends and family
-question: |
-  Tell the court about when you tried to contact the defendant through friends, family, employer, landlord, neighbors
-fields:
-  - 'Person contacted': friend_contacted1
-    required: False
-  - 'Relationship to defendant': relationship_name1
-    required: False
-  - 'Date contacted': relationship_date1
-    datatype: date
-    required: False
-  - 'Response from this person': relationship_info1
-    required: False
-  - 'Person contacted': friend_contacted2
-    required: False
-  - 'Relationship to defendant': relationship_name2
-    required: False
-  - 'Date contacted': relationship_date2
-    datatype: date
-    required: False
-  - 'Response from this person': relationship_infor2
-    required: False
----
-id: What attempts have you made to serve, if applicable
-question: |
-  Have you tried to tell DEFENDANT about this case?
-subquestion: | 
-  This is called "serving" the defendant
-fields:
-  - 'Sheriff ': sheriff_check
-    datatype: yesnowide
-  - 'No attempt ': no_attempt_check
-    datatype: yesnowide
-# comment: make either or, can't check both 
----
-id: Please provide your BBO number for the court
-question: |
-  Please provide your BBO number for the court
-fields:
-  - 'BBO number': BBO_number
-    required: False
-  
-# comment: only appear if the attorney is user 
----
-id: user address
-question: |
-  What is your address?
-subquestion: |
-  What address should the court use to mail papers to you?
-fields:
-  - Street address: users[0].address.address
-    address autocomplete: True
-  - Unit: users[0].address.unit
-    required: False
-  - City: users[0].address.city
-  - State: users[0].address.state
-    code: |
-      states_list()
-    default: MA      
-  - Zip: users[0].address.zip
-    required: False
----
-id: docket number
-question: |
-  What is the docket number for your case? 
-subquestion: |
-  You can find this... 
-fields:
-  - 'Docket number': docket_number
+
+
 ---
 progress: 100
 mandatory: True
@@ -402,11 +185,11 @@ attachment:
       - "social_date2": ${ social_date2 }
       - "social_response2": ${ social_response2 }
       - "internet_search_check": ${ internet_search_check }
-      - "webstie_name1": ${ webstie_name1 }
+      - "website_name1": ${ website_name1 }
       - "website_date1": ${ website_date1 }
       - "website_response1": ${ website_response1 }
-      - "webstie_name2": ${ webstie_name2 }
-      - "webstie_date2": ${ webstie_date2 }
+      - "website_name2": ${ website_name2 }
+      - "website_date2": ${ website_date2 }
       - "website_response2": ${ website_response2 }
       - "child_support_check": ${ child_support_check }
       - "friends_family_check": ${ friends_family_check }
@@ -423,66 +206,10 @@ attachment:
       - "sheriff_check": ${ sheriff_check }
       - "no_attempt_check": ${ no_attempt_check }
       - "BBO_number": ${ BBO_number }
----
-id: any other users
-question: |
-  Who are you? Is this for you or are you helping someone?
-subquestion: |
-  % if len(users.elements) > 1:
-  You have already told us about ${comma_and_list(users.complete_elements())}.
-  % else:
-  We need to know the name of everyone who is part of this case.
-  % endif
-  
-  Is anyone else on your side of this case?
-yesno: users.there_is_another
-#comment Reminder to reword and rework for two paths.
----
-id: names of opposing parties
-question: |
-  % if users==plaintiffs:
-  Please list the name of each **defendant** or respondent in this
-  case below
-  % else:
-  Please list the name of each **plaintiff** or petitioner in this case below
-  % endif
-subquestion: |
-  Click "${word("Add another")}" to add more.
-list collect: 
-  enable: True
-  label: |
-    % if users==plaintiffs:
-    Defendant/Respondent ${i+1}    
-    % else:
-    Plaintiff/Petitioner ${i+1}
-    % endif
-fields:
-  - Are they a person, or a business?: other_parties[i].person_type
-    input type: radio
-    choices:
-      - Business or organization: business
-      - Person: individual
-  - First name: other_parties[i].name.first
-    show if:
-      variable: other_parties[i].person_type
-      is: "individual"
-  - Last name: other_parties[i].name.last
-    show if:
-      variable: other_parties[i].person_type      
-      is: "individual"
-  - Suffix: other_parties[i].name.suffix
-    code: |
-      name_suffix()
-    show if:
-      variable: other_parties[i].person_type      
-      is: "individual"
-    required: False      
-  - Name of organization or business: other_parties[i].name.first
-    show if:
-      variable: other_parties[i].person_type
-      is: business
+
+
 --- 
-id: service_by_alternate_means_diligent_search review screen
+id: review screens
 event: review_service_by_alternate_means_diligent_search
 question: |
   Placeholder Review Screen
@@ -589,10 +316,10 @@ review:
     button: |
       Internet search check:
       ${ word(yesno(internet_search_check)) }
-  - Edit: webstie_name1
+  - Edit: website_name1
     button: |
-      Webstie name1:
-      ${ webstie_name1 }
+      Website name1:
+      ${ website_name1 }
   - Edit: website_date1
     button: |
       Website date1:
@@ -601,14 +328,14 @@ review:
     button: |
       Website response1:
       ${ website_response1 }
-  - Edit: webstie_name2
+  - Edit: website_name2
     button: |
-      Webstie name2:
-      ${ webstie_name2 }
-  - Edit: webstie_date2
+      Website name2:
+      ${ website_name2 }
+  - Edit: website_date2
     button: |
-      Webstie date2:
-      ${ webstie_date2 }
+      Website date2:
+      ${ website_date2 }
   - Edit: website_response2
     button: |
       Website response2:

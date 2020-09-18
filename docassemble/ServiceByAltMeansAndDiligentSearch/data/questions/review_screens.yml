@@ -1,0 +1,246 @@
+---
+#comment: review screens
+--- 
+id: review screens
+event: review_service_by_alternate_means_diligent_search
+question: |
+  Placeholder Review Screen
+subquestion: |
+  Edit your answers below
+review: 
+  - Edit: case_name
+    button: |
+      case name:
+      ${ case_name }
+  - Edit: publication_only
+    button: |
+      Publication only:
+      ${ word(yesno(publication_only)) }
+  - Edit: publication_mail
+    button: |
+      Publication mail:
+      ${ word(yesno(publication_mail)) }
+  - Edit: other_means
+    button: |
+      Other means:
+      ${ word(yesno(other_means)) }
+  - Edit: specify_service
+    button: |
+      Specify service:
+      ${ word(yesno(specify_service)) }
+  - Edit: instruct_service
+    button: |
+      Instruct service:
+      ${ word(yesno(instruct_service)) }
+  - Edit: specify_info
+    button: |
+      Specify info:
+      ${ specify_info }
+  - Edit: address_unknown
+    button: |
+      Address unknown:
+      ${ word(yesno(address_unknown)) }
+  - Edit: defendant_city
+    button: |
+      Defendant city:
+      ${ defendant_city }
+  - Edit: defendant_state
+    button: |
+      Defendant state:
+      ${ defendant_state }
+  - Edit: defendant_zip
+    button: |
+      Defendant zip:
+      ${ defendant_zip }
+  - Edit: date_last_known
+    button: |
+      Date last known:
+      ${ date_last_known }
+  - Edit: last_contact_date
+    button: |
+      Date of last contact:
+      ${ last_contact_date.format() }
+  - Edit: check_phone_text
+    button: |
+      Check phone text:
+      ${ word(yesno(check_phone_text)) }
+  - Edit: phone_response
+    button: |
+      Phone response:
+      ${ phone_response }
+  - Edit: check_email
+    button: |
+      Check email:
+      ${ word(yesno(check_email)) }
+  - Edit: email_response
+    button: |
+      Email response:
+      ${ email_response }
+  - Edit: social_check
+    button: |
+      Social check:
+      ${ word(yesno(social_check)) }
+  - Edit: social_media_site1
+    button: |
+      Social media site1:
+      ${ social_media_site1 }
+  - Edit: social_date1
+    button: |
+      Social date1:
+      ${ social_date1 }
+  - Edit: social_response1
+    button: |
+      Social response1:
+      ${ social_response1 }
+  - Edit: social_media_site2
+    button: |
+      Social media site2:
+      ${ social_media_site2 }
+  - Edit: social_date2
+    button: |
+      Social date2:
+      ${ social_date2 }
+  - Edit: social_response2
+    button: |
+      Social response2:
+      ${ social_response2 }
+  - Edit: internet_search_check
+    button: |
+      Internet search check:
+      ${ word(yesno(internet_search_check)) }
+  - Edit: webstie_name1
+    button: |
+      Webstie name1:
+      ${ webstie_name1 }
+  - Edit: website_date1
+    button: |
+      Website date1:
+      ${ website_date1 }
+  - Edit: website_response1
+    button: |
+      Website response1:
+      ${ website_response1 }
+  - Edit: webstie_name2
+    button: |
+      Webstie name2:
+      ${ webstie_name2 }
+  - Edit: webstie_date2
+    button: |
+      Webstie date2:
+      ${ webstie_date2 }
+  - Edit: website_response2
+    button: |
+      Website response2:
+      ${ website_response2 }
+  - Edit: child_support_check
+    button: |
+      Child support check:
+      ${ word(yesno(child_support_check)) }
+  - Edit: friends_family_check
+    button: |
+      Friends family check:
+      ${ word(yesno(friends_family_check)) }
+  - Edit: friend_contacted1
+    button: |
+      Friend contacted1:
+      ${ friend_contacted1 }
+  - Edit: relationship_name1
+    button: |
+      Relationship name1:
+      ${ relationship_name1 }
+  - Edit: relationship_date1
+    button: |
+      Relationship date1:
+      ${ relationship_date1 }
+  - Edit: relationship_info1
+    button: |
+      Relationship info1:
+      ${ relationship_info1 }
+  - Edit: friend_contacted2
+    button: |
+      Friend contacted2:
+      ${ friend_contacted2 }
+  - Edit: relationship_name2
+    button: |
+      Relationship name2:
+      ${ relationship_name2 }
+  - Edit: relationship_date2
+    button: |
+      Relationship date2:
+      ${ relationship_date2 }
+  - Edit: relationship_infor2
+    button: |
+      Relationship infor2:
+      ${ relationship_infor2 }
+  - Edit: military_check
+    button: |
+      Military check:
+      ${ word(yesno(military_check)) }
+  - Edit: other_contact_check
+    button: |
+      Other contact check:
+      ${ word(yesno(other_contact_check)) }
+  - Edit: sheriff_check
+    button: |
+      Sheriff check:
+      ${ word(yesno(sheriff_check)) }
+  - Edit: no_attempt_check
+    button: |
+      No attempt check:
+      ${ word(yesno(no_attempt_check)) }
+  - Edit: BBO_number
+    button: |
+      Bbo number:
+      ${ BBO_number }
+  - Edit: docket_number_2
+    button: |
+      ${ docket_number_2 }
+  - Edit: courts[0]
+    button: |
+      ${ courts[0] }
+  - Edit: courts[0].division
+    button: |
+      ${ courts[0].division }
+  - Edit: defendants[0]
+    button: |
+      ${ defendants[0] }
+  - Edit: defendants[0].address.address
+    button: |
+      ${ defendants[0].address.address }
+  - Edit: defendants[0].phone_number
+    button: |
+      ${ defendants[0].phone_number }
+  - Edit: defendants[0].email
+    button: |
+      ${ defendants[0].email }
+  - Edit: docket_number_1
+    button: |
+      ${ docket_number_1 }
+  - Edit: docket_number3
+    button: |
+      ${ docket_number_3 }
+  - Edit: users[0].signature
+    button: |
+      ${ users[0].signature }
+  - Edit: signature_date
+    button: |
+      ${ signature_date }
+  - Edit: users[0]
+    button: |
+      ${ users[0] }
+  - Edit: users[0].address.city
+    button: |
+      ${ users[0].address.city }
+  - Edit: users[0].address.state
+    button: |
+      ${ users[0].address.state }
+  - Edit: users[0].address.zip
+    button: |
+      ${ users[0].address.zip }
+  - Edit: users[0].phone_number
+    button: |
+      ${ users[0].phone_number }
+  - Edit: users[0].email
+    button: |
+      ${ users[0].email }
+      
