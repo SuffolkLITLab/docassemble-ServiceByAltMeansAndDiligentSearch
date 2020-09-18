@@ -58,15 +58,17 @@ code: |
   nav.set_section('review_service_by_alternate_means_diligent_search')
   users.there_is_another
   docket_number
-  case_name
-  publication_only
+  service_request
   user_ask_role = 'plaintiff'
   users[0].name.first
   str(users[0])
   users[0].address.city
   users[0].phone_number
   users[0].email
+  other_parties[0].person_type = 'individual'
   str(defendants[0])
+  case_name
+  correct_case_name
   defendants[0].phone_number
   defendants[0].email
   defendants[0].address.address

@@ -1,4 +1,11 @@
 ---
+include:
+  - docassemble.MAVirtualCourt:basic-questions.yml
+  - alternative_means_diligent_search.yml
+  - user_information.yml
+  - search_questions.yml
+  - review_screens.yml
+---
 #comment: about the case
 ---
 id: docket number
@@ -11,53 +18,28 @@ fields:
 ---
 id: case name
 question: |
-  What is the name of your case?
-fields:
-  - Case Name: case_name
+  Is this the name of your case?
+subquestion: | 
+  ${ value('case_name') }
+yesno: correct_case_name
+--- 
+id: case name collect 
+code: |
+  define('case_name', '${users[0].name} vs. ${other_parties[0].name}')  
 ---
 id: names of opposing parties
 question: |
-  % if users==plaintiffs:
-  Please list the name of each **defendant** or respondent in this
-  case below
-  % else:
-  Please list the name of each **plaintiff** or petitioner in this case below
-  % endif
-subquestion: |
-  Click "${word("Add another")}" to add more.
-list collect: 
-  enable: True
-  label: |
-    % if users==plaintiffs:
-    Defendant/Respondent ${i+1}    
-    % else:
-    Plaintiff/Petitioner ${i+1}
-    % endif
+  What the name of the **defendant** or respondent in this
+  case?
 fields:
-  - Are they a person, or a business?: other_parties[i].person_type
-    input type: radio
-    choices:
-      - Business or organization: business
-      - Person: individual
-  - First name: other_parties[i].name.first
-    show if:
-      variable: other_parties[i].person_type
-      is: "individual"
-  - Last name: other_parties[i].name.last
-    show if:
-      variable: other_parties[i].person_type      
-      is: "individual"
-  - Suffix: other_parties[i].name.suffix
+  - First name: other_parties[0].name.first
+  - Middle Name: other_parties[0].name.middle
+    required: False
+  - Last name: other_parties[0].name.last
+  - Suffix: other_parties[0].name.suffix
     code: |
       name_suffix()
-    show if:
-      variable: other_parties[i].person_type      
-      is: "individual"
     required: False      
-  - Name of organization or business: other_parties[i].name.first
-    show if:
-      variable: other_parties[i].person_type
-      is: business
 ---
 id: defendant last known address
 generic object: Individual
@@ -95,26 +77,28 @@ fields:
   - 'Date': date_last_known
     datatype: date
 ---
----
 id: ask court
 continue button field:         
   What_would_you_like_to_request_the_court_allow_you_to_do
 question: |
   What would you like to request the court allow you to do?
-subquestion: |
-  Placeholder text
 fields:
-  - 'Provide service by publication in the newspaper': publication_only
-    datatype: yesnowide
-  - Provide service by publication in the newspaper and mailing the defendant: publication_mail
-    datatype: yesnowide
-  - Provide service by other means not prohibited by law: other_means
-    datatype: yesnowide
-  - Specify service: specify_service
-    datatype: yesnowide
-    required: False
-  - Instruct me on service: instruct_service
-    datatype: yesnowide
-    required: False
+  - Ask the court: service_request
+    input type: radio
+    choices: 
+      - Provide service by publication in the newspaper: publication_only
+      - Provide service by publication in the newspaper and mailing the defendant: publication_mail
+      - Provide service by other means not prohibited by law: other_means
+  - I would like to provide service: means_specified
+    show if:
+      variable: service_request 
+      is: other_means
+    input type: radio 
+    choices: 
+      - 'Specify service': specify_service
+      - 'Instruct me on service': instruct_service
   - Specify info: specify_info
-    required: False
+    show if: 
+      variable: means_specified
+      is: specify_service
+  
