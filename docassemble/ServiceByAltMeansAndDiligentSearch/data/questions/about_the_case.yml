@@ -25,7 +25,7 @@ yesno: correct_case_name
 --- 
 id: case name collect 
 code: |
-  case_name = (users[0].name.first + other_parties[0].name.first)
+  case_name = users[0].name.first + ' ' + 'vs.' + ' ' + other_parties[0].name.first
   
 ---
 id: names of opposing parties
