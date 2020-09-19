@@ -1,0 +1,45 @@
+---
+# comment: yml for any other users 
+--- 
+---
+id: any other users
+question: |
+  Who are you? Is this for you or are you helping someone?
+subquestion: |
+  % if len(users.elements) > 1:
+  You have already told us about ${comma_and_list(users.complete_elements())}.
+  % else:
+  We need to know the name of everyone who is part of this case.
+  % endif
+  
+  Is anyone else on your side of this case?
+yesno: users.there_is_another
+#comment Reminder to reword and rework for two paths.
+---
+id: BBO number
+question: |
+  Please provide your BBO number for the court
+fields:
+  - 'BBO number': BBO_number
+    required: False
+  
+# comment: only appear if the attorney is user 
+---
+---
+id: user address
+question: |
+  What is your address?
+subquestion: |
+  What address should the court use to mail papers to you?
+fields:
+  - Street address: users[0].address.address
+    address autocomplete: True
+  - Unit: users[0].address.unit
+    required: False
+  - City: users[0].address.city
+  - State: users[0].address.state
+    code: |
+      states_list()
+    default: MA      
+  - Zip: users[0].address.zip
+    required: False

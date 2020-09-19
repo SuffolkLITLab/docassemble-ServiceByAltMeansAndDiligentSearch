@@ -1,0 +1,105 @@
+---
+include:
+  - docassemble.MAVirtualCourt:basic-questions.yml
+  - alternative_means_diligent_search.yml
+  - user_information.yml
+  - search_questions.yml
+  - review_screens.yml
+---
+#comment: about the case
+---
+id: docket number
+question: |
+  What is the docket number for your case? 
+subquestion: |
+  You can find this... 
+fields:
+  - 'Docket number': docket_number
+---
+id: case name
+question: |
+  Is this the name of your case?
+subquestion: | 
+  ${ case_name }
+yesno: correct_case_name
+--- 
+id: case name collect 
+code: |
+  case_name = users[0].name.first + ' ' + 'vs.' + ' ' + other_parties[0].name.first
+  
+---
+id: names of opposing parties
+question: |
+  What the name of the **defendant** or respondent in this
+  case?
+fields:
+  - First name: other_parties[0].name.first
+  - Middle Name: other_parties[0].name.middle
+    required: False
+  - Last name: other_parties[0].name.last
+  - Suffix: other_parties[0].name.suffix
+    code: |
+      name_suffix()
+    required: False      
+---
+id: defendant last known address
+generic object: Individual
+question: |
+  What is ${ x.possessive('last known address') }?
+fields:
+  - Address unknown: address_unknown
+    datatype: yesnowide
+  - Street address: defendant.address.address
+    address autocomplete: True
+  - Unit: defendant.address.unit
+    required: False
+  - City: defendant.address.city
+  - State: defendant.address.state
+    default: MA   
+    code: |
+      states_list()   
+  - Zip: defendant.address.zip
+    required: False
+#fields:
+#  - 'Address unknown': address_unknown
+#    datatype: yesnowide
+#  - 'Defendant street address': defendant_address
+#  - 'Unita and apartment or unit number': defendant_address 
+#  - 'Defendant city': defendant_city
+#  - 'Defendant state': defendant_state
+#  - 'Defendant zip': defendant_zip
+---
+id: When did the defendant last live at this address?
+question: |
+  When did  ${ other_parties[1-1].name } last live at ${ other_parties[1-1].address } ?
+subquestion: |
+  This can be a guess or the exact date 
+fields:
+  - 'Date': date_last_known
+    datatype: date
+---
+id: ask court
+continue button field:         
+  What_would_you_like_to_request_the_court_allow_you_to_do
+question: |
+  What would you like to request the court allow you to do?
+fields:
+  - Ask the court: service_request
+    input type: radio
+    choices: 
+      - Provide service by publication in the newspaper: publication_only
+      - Provide service by publication in the newspaper and mailing the defendant: publication_mail
+      - Provide service by other means not prohibited by law: other_means
+  - I would like to provide service: means_specified
+    show if:
+      variable: service_request 
+      is: other_means
+    input type: radio 
+    choices: 
+      - 'Specify service': specify_service
+      - 'Instruct me on service': instruct_service
+  - Specify info: specify_info
+    show if: 
+      variable: means_specified
+      is: specify_service
+  
