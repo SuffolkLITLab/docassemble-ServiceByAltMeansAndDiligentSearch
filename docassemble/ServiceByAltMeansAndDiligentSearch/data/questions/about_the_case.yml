@@ -26,7 +26,7 @@ yesno: correct_case_name
 id: case name collect 
 code: |
   case_name = users[0].name.first + ' ' + 'vs.' + ' ' + other_parties[0].name.first
-  
+ 
 ---
 id: names of opposing parties
 question: |
@@ -60,14 +60,6 @@ fields:
       states_list()   
   - Zip: defendant.address.zip
     required: False
-#fields:
-#  - 'Address unknown': address_unknown
-#    datatype: yesnowide
-#  - 'Defendant street address': defendant_address
-#  - 'Unita and apartment or unit number': defendant_address 
-#  - 'Defendant city': defendant_city
-#  - 'Defendant state': defendant_state
-#  - 'Defendant zip': defendant_zip
 ---
 id: When did the defendant last live at this address?
 question: |

@@ -56,7 +56,9 @@ code: |
   # Set the preferred/allowed courts for this interview
   allowed_courts = interview_metadata["service_by_alternate_means_diligent_search"]["allowed courts"]
   nav.set_section('review_service_by_alternate_means_diligent_search')
-  users.there_is_another
+  user_is
+  users.ask_number = True 
+  users.target_number = 1
   docket_number
   service_request
   user_ask_role = 'plaintiff'
@@ -81,7 +83,10 @@ code: |
   website_name1
   friend_contacted1
   sheriff_check
-  BBO_number
+  if user_is: 
+    BBO_number
+  else:
+    BBO_number = ' ' 
   str(courts[0])
   courts[0].division
   signature_date
@@ -107,9 +112,6 @@ subquestion: |
   Here is a preview of the form you'll sign on the next page. 
   
    ${service_by_alternate_means_diligent_search_attachment['preview']}
-
-
-
 ---
 progress: 100
 mandatory: True
