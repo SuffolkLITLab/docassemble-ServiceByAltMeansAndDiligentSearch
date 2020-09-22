@@ -69,7 +69,7 @@ code: |
   users[0].email
   other_parties[0].person_type = 'individual'
   str(defendants[0])
-  case_name_combo
+  case_name
   correct_case_name
   defendants[0].phone_number
   defendants[0].email
