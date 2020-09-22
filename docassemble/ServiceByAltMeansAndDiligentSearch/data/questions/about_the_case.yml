@@ -20,13 +20,12 @@ id: case name
 question: |
   Is this the name of your case?
 subquestion: | 
-  ${ case_name }
+  ${ users[0].name.first} vs. ${other_parties[0].name.first}
 yesno: correct_case_name
 --- 
-id: case name collect 
+id: case name  
 code: |
-  case_name = users[0].name.first + ' ' + 'vs.' + ' ' + other_parties[0].name.first
- 
+  case_name = users[0].name + ' ' + 'vs.' + ' ' + other_parties[0].name
 ---
 id: names of opposing parties
 question: |

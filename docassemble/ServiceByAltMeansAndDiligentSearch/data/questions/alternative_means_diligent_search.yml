@@ -69,15 +69,17 @@ code: |
   users[0].email
   other_parties[0].person_type = 'individual'
   str(defendants[0])
-  case_name
+  #case_name
   correct_case_name
   defendants[0].phone_number
   defendants[0].email
   defendants[0].address.address
   date_last_known
   last_contact_date
-  check_phone_text
-  phone_response
+  check_phone
+  check_text
+  call_response
+  text_response
   email_response
   social_media_site1
   website_name1
