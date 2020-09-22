@@ -74,8 +74,10 @@ code: |
   defendants[0].address.address
   date_last_known
   last_contact_date
-  check_phone_text
-  phone_response
+  check_phone
+  check_text
+  call_response
+  text_response
   email_response
   social_media_site1
   website_name1

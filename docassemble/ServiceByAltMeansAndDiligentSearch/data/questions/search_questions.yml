@@ -9,6 +9,7 @@ subquestion: |
 fields:
   - 'Date of last contact': last_contact_date
     datatype: date
+  - 'Written Guess': written_guess
 ---
 id: efforts taken
 question: |
@@ -16,7 +17,9 @@ question: |
 subquestion: |
   Check all that apply
 fields:
-  - 'By phone or text': check_phone_text
+  - 'By phone': check_phone
+    datatype: yesnowide
+  - 'By text': check_text
     datatype: yesnowide
   - 'By email': check_email
     datatype: yesnowide
@@ -37,16 +40,25 @@ id: tried by phone
 question: |
   Tell the court about when you tried to contact the defendant by phone 
 subquestion: |
-  Please provide the telephone number you tried to text or call and if you recieved a reply
+  Please provide the telephone number you tried to call and if you recieved a reply
 fields:
   - Defendant phone number: defendants[0].phone_number
-  - Response to phone call or text: phone_response
+  - Response to phone call: call_response
+---
+id: tried by text
+question: |
+  Tell the court about when you tried to contact the defendant by text 
+subquestion: |
+  Please provide the telephone number you tried to text and if you recieved a reply
+fields:
+  - Defendant phone number: defendants[0].phone_number
+  - Response to text: text_response
 ---
 id: contact by email
 question: |
   Tell the court about when you tried to contact the defendant by email
 subquestion: |
-  Please provide  DEF NAME email address you used to  and if you recieved a reply
+  Please provide {str(defendants[0])} email address you used to and if you recieved a reply
 fields:
   - Defendant's email: defendants[0].email
   - Response to email : email_response
