@@ -20,12 +20,12 @@ id: case name
 question: |
   Is this the name of your case?
 subquestion: | 
-  ${ users[0].name.first} vs. ${other_parties[0].name.first}
+  ${case_name }
 yesno: correct_case_name
 --- 
 id: case name  
 code: |
-  case_name = users[0].name + ' ' + 'vs.' + ' ' + other_parties[0].name
+  case_name = users[0].name.first + ' ' + 'vs.' + ' ' + other_parties[0].name.first
 ---
 id: names of opposing parties
 question: |
@@ -87,8 +87,8 @@ fields:
       is: other_means
     input type: radio 
     choices: 
-      - 'Specify service': specify_service
-      - 'Instruct me on service': instruct_service
+      - Specify service: specify_service
+      - Instruct me on service: instruct_service
   - Specify info: specify_info
     show if: 
       variable: means_specified

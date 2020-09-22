@@ -41,7 +41,13 @@ fields:
     required: False
   
 # comment: only appear if the attorney is user 
-
+---
+id: bbo logic 
+code: |
+  if not user_is: 
+    BBO_number = ' ' 
+  else:
+    BBO_number
 ---
 id: user address
 question: |

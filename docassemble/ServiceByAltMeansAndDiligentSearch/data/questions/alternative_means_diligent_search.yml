@@ -69,7 +69,7 @@ code: |
   users[0].email
   other_parties[0].person_type = 'individual'
   str(defendants[0])
-  #case_name
+  case_name_combo
   correct_case_name
   defendants[0].phone_number
   defendants[0].email
@@ -78,17 +78,20 @@ code: |
   last_contact_date
   check_phone
   check_text
-  call_response
-  text_response
-  email_response
-  social_media_site1
-  website_name1
-  friend_contacted1
+  if check_phone: 
+    call_response
+  if check_text: 
+    text_response
+  if check_email:
+    email_response
+  if social_check:
+    social_media_site1
+  if internet_search_check:
+    website_name1
+  if friends_family_check:
+    friend_contacted1
   sheriff_check
-  if user_is: 
-    BBO_number
-  else:
-    BBO_number = ' ' 
+  BBO_number
   str(courts[0])
   courts[0].division
   signature_date
@@ -212,8 +215,6 @@ attachment:
       - "sheriff_check": ${ sheriff_check }
       - "no_attempt_check": ${ no_attempt_check }
       - "BBO_number": ${ BBO_number }
-
-
 --- 
 id: review screens
 event: review_service_by_alternate_means_diligent_search
