@@ -180,7 +180,7 @@ attachment:
       - "specify_service": ${ specify_service }
       - "instruct_service": ${ instruct_service }
       - "specify_info": ${ specify_info }
-      - "date_last_known": ${ date_last_known }
+      - "date_last_known": ${ date_last_known or address_date_guess }
       - "last_contact_date": ${ last_contact_date }
       - "check_phone_text": ${ check_phone_text }
       - "phone_response": ${ phone_response }

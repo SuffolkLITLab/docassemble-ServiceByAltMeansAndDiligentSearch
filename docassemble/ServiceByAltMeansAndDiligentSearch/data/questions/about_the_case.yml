@@ -60,7 +60,7 @@ fields:
   - Zip: defendant.address.zip
     required: False
 ---
-id: When did the defendant last live at this address?
+id: date of last known address
 question: |
   When did  ${ other_parties[1-1].name } last live at ${ other_parties[1-1].address } ?
 subquestion: |
@@ -68,6 +68,12 @@ subquestion: |
 fields:
   - 'Date': date_last_known
     datatype: date
+---
+ #   hide if: dont_know_date
+ # - 'Guess': address_date_guess 
+ #   show if:  dont_know_date
+ # - 'I do not know the exact date': dont_know_date
+ #   datatype: yesno
 ---
 id: ask court
 continue button field:         
