@@ -1,20 +1,37 @@
 ---
+include:
+  - docassemble.MAVirtualCourt:basic-questions.yml
+  - alternative_means_diligent_search.yml
+  - about_the_case.yml
+  - search_questions.yml
+  - review_screens.yml
+---
 # comment: yml for any other users 
---- 
 ---
 id: any other users
 question: |
-  Who are you? Is this for you or are you helping someone?
-subquestion: |
-  % if len(users.elements) > 1:
-  You have already told us about ${comma_and_list(users.complete_elements())}.
+  Are you the plaintiff or helping the plaintiff? 
+field: user_is
+buttons: 
+  - I am the plaintiff: False
+  - I am the attorney for the plaintiff: True
+---
+id: plaintiff name
+question:  |
+  % if user_is == False:
+  What is your name?
   % else:
-  We need to know the name of everyone who is part of this case.
-  % endif
-  
-  Is anyone else on your side of this case?
-yesno: users.there_is_another
-#comment Reminder to reword and rework for two paths.
+  What is your client's name?
+  % endif 
+fields:
+  - First Name: users[0].name.first
+  - Middle Name: users[0].name.middle
+    required: False
+  - Last Name: users[0].name.last
+  - Suffix: users[0].name.suffix
+    code: |
+      name_suffix()
+    required: False 
 ---
 id: BBO number
 question: |
@@ -25,10 +42,20 @@ fields:
   
 # comment: only appear if the attorney is user 
 ---
+id: bbo logic 
+code: |
+  if not user_is: 
+    BBO_number = ' ' 
+  else:
+    BBO_number
 ---
 id: user address
 question: |
+  % if user_is == False:
   What is your address?
+  % else:
+  What is the plaintiff's address?
+  % endif 
 subquestion: |
   What address should the court use to mail papers to you?
 fields:
@@ -43,3 +70,41 @@ fields:
     default: MA      
   - Zip: users[0].address.zip
     required: False
+---
+id: contact information
+question: |
+  % if user_is == False:
+  What is your contact information?
+  % else:
+  What is the plaintiff's contact information?
+  % endif 
+subquestion: |
+  The court needs to be able to reach you to schedule your hearing.
+  
+  Include at least **one** way to reach you other than by mail.
+fields:  
+  - Mobile number: users[0].mobile_number
+    required: False
+  - Other phone number: users[0].phone_number
+    required: False
+  - Email address: users[0].email    
+    datatype: email
+    required: False
+  - Other ways to reach you: users[0].other_contact_method
+    input type: area
+    required: False
+    help: |
+      If you do not have a phone number or email the court can use, provide
+      specific contact instructions. For example, use a friend's phone number.
+      But the friend must be someone you can rely on to tell you the court is
+      trying to reach you.
+validation code: |
+  if (not showifdef('users[0].phone_number') and \
+      (not showifdef('users[0].mobile_number')) and \
+      (not showifdef('users[0].email')) and \
+      (not showifdef('users[0].other_contact_method'))):
+    validation_error(word("You need to provide at least one contact method."))
+help: |
+  The court **must** be able to reach you. So you have to give them some way to do this.
+  
+  Some forms allow you to tell the court you need to keep your address, phone

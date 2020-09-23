@@ -20,13 +20,12 @@ id: case name
 question: |
   Is this the name of your case?
 subquestion: | 
-  ${ case_name }
+  ${case_name }
 yesno: correct_case_name
 --- 
-id: case name collect 
+id: case name  
 code: |
   case_name = users[0].name.first + ' ' + 'vs.' + ' ' + other_parties[0].name.first
-  
 ---
 id: names of opposing parties
 question: |
@@ -60,16 +59,8 @@ fields:
       states_list()   
   - Zip: defendant.address.zip
     required: False
-#fields:
-#  - 'Address unknown': address_unknown
-#    datatype: yesnowide
-#  - 'Defendant street address': defendant_address
-#  - 'Unita and apartment or unit number': defendant_address 
-#  - 'Defendant city': defendant_city
-#  - 'Defendant state': defendant_state
-#  - 'Defendant zip': defendant_zip
 ---
-id: When did the defendant last live at this address?
+id: date of last known address
 question: |
   When did  ${ other_parties[1-1].name } last live at ${ other_parties[1-1].address } ?
 subquestion: |
@@ -77,6 +68,12 @@ subquestion: |
 fields:
   - 'Date': date_last_known
     datatype: date
+---
+ #   hide if: dont_know_date
+ # - 'Guess': address_date_guess 
+ #   show if:  dont_know_date
+ # - 'I do not know the exact date': dont_know_date
+ #   datatype: yesno
 ---
 id: ask court
 continue button field:         
@@ -96,8 +93,8 @@ fields:
       is: other_means
     input type: radio 
     choices: 
-      - 'Specify service': specify_service
-      - 'Instruct me on service': instruct_service
+      - Specify service: specify_service
+      - Instruct me on service: instruct_service
   - Specify info: specify_info
     show if: 
       variable: means_specified

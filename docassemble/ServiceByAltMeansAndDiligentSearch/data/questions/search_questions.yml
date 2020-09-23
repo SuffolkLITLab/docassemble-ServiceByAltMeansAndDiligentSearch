@@ -1,6 +1,13 @@
 ---
 #comment: questions about the search only
 ---
+include:
+  - docassemble.MAVirtualCourt:basic-questions.yml
+  - user_information.yml
+  - about_the_case.yml
+  - alternative_means_diligent_search.yml
+  - review_screens.yml
+---
 id: date last contact
 question: |
   What is the last time you saw, heard from, or had contact with the defendant?
