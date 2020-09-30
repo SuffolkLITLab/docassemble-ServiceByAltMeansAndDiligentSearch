@@ -8,24 +8,48 @@ include:
 ---
 #comment: about the case
 ---
+id: open case
+question: | 
+  % if user_is == False:
+  Do you already have a case in the Probate and Family Court?
+  % else:
+  Is this related to an open case in the Probate and Family Court?
+  % endif 
+yesno: open_case
+---
 id: docket number
 question: |
   What is the docket number for your case? 
-subquestion: |
-  You can find this... 
+list collect: True
 fields:
-  - 'Docket number': docket_number
+  - 'no label': docket_numbers[i]
+---
+id: case name 
+reconsider: True
+code: |
+  ask_case = users[0].name.first + ' ' + users[0].name.last + ' ' + 'vs.' + ' ' + other_parties[0].name.first + ' ' + other_parties[0].name.last
 ---
 id: case name
 question: |
   Is this the name of your case?
 subquestion: | 
-  ${case_name }
+  ${ ask_case }
 yesno: correct_case_name
 --- 
-id: case name  
-code: |
-  case_name = users[0].name.first + ' ' + 'vs.' + ' ' + other_parties[0].name.first
+id: reask 
+question: | 
+  If the name of your case is **not** *${ ask_case }*, what is the name of your case? 
+fields: 
+ - no label: correct_case
+---
+id: edit case
+question: | 
+  What is the name of your case? 
+fields:
+ - 'no label': case_name
+   show if: 
+     variable: correct_case_name 
+     is: False
 ---
 id: names of opposing parties
 question: |
@@ -78,19 +102,13 @@ fields:
       variable: do_not_know
       is: True
 ---
- #   hide if: dont_know_date
- # - 'Guess': address_date_guess 
- #   show if:  dont_know_date
- # - 'I do not know the exact date': dont_know_date
- #   datatype: yesno
----
 id: ask court
 continue button field:         
   What_would_you_like_to_request_the_court_allow_you_to_do
 question: |
-  What would you like to request the court allow you to do?
+  What would you like to ask the court allow you to do?
 fields:
-  - Ask the court: service_request
+  - no label: service_request
     input type: radio
     choices: 
       - Provide service by publication in the newspaper: publication_only
@@ -108,4 +126,3 @@ fields:
     show if: 
       variable: means_specified
       is: specify_service
-  

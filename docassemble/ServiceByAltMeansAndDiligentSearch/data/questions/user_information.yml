@@ -54,10 +54,14 @@ question: |
   % if user_is == False:
   What is your address?
   % else:
-  What is the plaintiff's address?
+  What is your client's address?
   % endif 
 subquestion: |
+  % if user_is == False:
   What address should the court use to mail papers to you?
+  % else:
+  What is your client's address?
+  % endif 
 fields:
   - Street address: users[0].address.address
     address autocomplete: True
@@ -73,11 +77,7 @@ fields:
 ---
 id: contact information
 question: |
-  % if user_is == False:
   What is your contact information?
-  % else:
-  What is the plaintiff's contact information?
-  % endif 
 subquestion: |
   The court needs to be able to reach you to schedule your hearing.
   
