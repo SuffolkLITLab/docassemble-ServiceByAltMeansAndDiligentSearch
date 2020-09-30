@@ -59,7 +59,11 @@ code: |
   user_is
   users.ask_number = True 
   users.target_number = 1
-  docket_number
+  open_case
+  if open_case:
+    docket_numbers[0]
+  else: 
+    docket_numbers[0] = ' '
   service_request
   user_ask_role = 'plaintiff'
   users[0].name.first
@@ -69,8 +73,10 @@ code: |
   users[0].email
   other_parties[0].person_type = 'individual'
   str(defendants[0])
-  case_name
-  correct_case_name
+  if correct_case_name: 
+    case_name = ask_case
+  else: 
+    case_name = correct_case
   defendants[0].phone_number
   defendants[0].email
   defendants[0].address.address
@@ -92,6 +98,7 @@ code: |
     friend_contacted1
   sheriff_check
   BBO_number
+  case_name
   str(courts[0])
   courts[0].division
   signature_date
@@ -107,7 +114,9 @@ continue button field: service_by_alternate_means_diligent_search_intro
 question: |
   Motion For Service By Alternate Means and Affidavit of Diligent Search
 subquestion: |
-  If the sheriff could not serve the defendant with a Divorce / Separate Support Summons in person or if you do not know where the Defendant lives, ask the court for an order for Alternate Service by Publication and Mailing. This order tells you to publish the summons in the newspaper and mail the summons and complaint to the defendant at the last address you have for him or her.
+  If the sheriff could not serve the defendant in person or if you do not know where the Defendant lives, ask the court for an order for Alternate Service by Publication and Mailing. 
+  
+  This order tells you to publish the summons in the newspaper and mail the summons and complaint to the defendant at the last address you have for him or her.
 ---
 id: Placeholder preview screen
 continue button field: service_by_alternate_means_diligent_search_preview_question
@@ -116,7 +125,7 @@ question: |
 subquestion: |
   Here is a preview of the form you'll sign on the next page. 
   
-   ${service_by_alternate_means_diligent_search_attachment['preview']}
+  ${service_by_alternate_means_diligent_search_attachment['preview']}
 ---
 progress: 100
 mandatory: True
@@ -158,9 +167,7 @@ attachment:
       - "defendant_state": ${defendants[0].address.state}
       - "defendant_zip": ${defendants[0].address.zip}
       - "defendant_phone": ${ defendants[0].phone_number }
-      - "defendant_phone": ${ defendants[0].phone_number }
       - "defendant_email": ${ defendants[0].email }
-      - "docket_number": ${ docket_number }
       - "docket_number": ${ docket_number }
       # If it is a signature, test which file version we're expecting. leave it empty unless it's the final attachment version
       - "user_signature": ${ users[0].signature if i == 'final' else '' }
@@ -171,18 +178,18 @@ attachment:
       - "user_address_city": ${ users[0].address.city }
       - "user_address_state": ${ users[0].address.state }
       - "user_address_zip": ${ users[0].address.zip }
-      - "user_phone": ${ users[0].phone_number }
+      - "user_phone": ${ users[0].phone_number or users[0].mobile_number}
       - "user_email": ${ users[0].email }
-      - "case_name": ${ case_name }
-      - "publication_only": ${ publication_only }
-      - "publication_mail": ${ publication_mail }
-      - "other_means": ${ other_means }
-      - "specify_service": ${ specify_service }
-      - "instruct_service": ${ instruct_service }
+      - "case_name": ${ case_name or corrected_case_name }
+      - "publication_only": ${ service_request == "publication_only" }
+      - "publication_mail": ${ service_request == "publication_mail" }
+      - "other_means": ${ service_request == "other_means" }
+      - "specify_service": ${ service_request == "other_means" and means_specified == 'specify_service' }
+      - "instruct_service": ${ service_request == "other_means" and means_specified == instruct_service }
       - "specify_info": ${ specify_info }
       - "date_last_known": ${ date_last_known or address_date_guess }
       - "last_contact_date": ${ last_contact_date }
-      - "check_phone_text": ${ check_phone or check_text }
+      - "check_phone_text": ${ check_phone or check_text }	     
       - "phone_response": ${ phone_response or text_response }
       - "check_email": ${ check_email }
       - "email_response": ${ email_response }
