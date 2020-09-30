@@ -74,8 +74,8 @@ code: |
   defendants[0].phone_number
   defendants[0].email
   defendants[0].address.address
-  date_last_known
   last_contact_date
+  written_guess
   check_phone
   check_text
   if check_phone: 
@@ -182,8 +182,8 @@ attachment:
       - "specify_info": ${ specify_info }
       - "date_last_known": ${ date_last_known or address_date_guess }
       - "last_contact_date": ${ last_contact_date }
-      - "check_phone_text": ${ check_phone_text }
-      - "phone_response": ${ phone_response }
+      - "check_phone_text": ${ check_phone or check_text }
+      - "phone_response": ${ phone_response or text_response }
       - "check_email": ${ check_email }
       - "email_response": ${ email_response }
       - "social_check": ${ social_check }

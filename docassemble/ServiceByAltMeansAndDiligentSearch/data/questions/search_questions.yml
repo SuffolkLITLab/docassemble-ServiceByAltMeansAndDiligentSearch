@@ -8,15 +8,23 @@ include:
   - alternative_means_diligent_search.yml
   - review_screens.yml
 ---
-id: date last contact
+id: last_contact_date
 question: |
-  What is the last time you saw, heard from, or had contact with the defendant?
+  When did  ${ other_parties[0].name } last live at ${ other_parties[0].address } ?
 subquestion: |
-  This date can be the exact date or your best guess. 
+  This can be a guess or the exact date 
 fields:
-  - 'Date of last contact': last_contact_date
+  - 'Do not know': do_not_know
+    datatype: yesno
+  - 'Date': date_last_known
     datatype: date
-  - 'Written Guess': written_guess
+    show if: 
+      variable: do_not_know
+      is: False
+  - 'Guess': date_last_known
+    show if:
+      variable: do_not_know
+      is: True
 ---
 id: efforts taken
 question: |
