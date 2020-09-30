@@ -8,22 +8,22 @@ include:
   - alternative_means_diligent_search.yml
   - review_screens.yml
 ---
-id: last_contact_date
+id: last contact
 question: |
-  When did  ${ other_parties[0].name } last live at ${ other_parties[0].address } ?
+  When is the last time you saw, heard from, or had contact with  ${ other_parties[0].name }?
 subquestion: |
-  This can be a guess or the exact date 
+  This can be a guess or the exact date
 fields:
-  - 'Do not know': do_not_know
+  - 'I do not know the exact date': last_contact_unknown
     datatype: yesno
-  - 'Date': date_last_known
+  - 'Date of last contact with ${ other_parties[0].name }': last_contact_date
     datatype: date
     show if: 
-      variable: do_not_know
+      variable: last_contact_unknown
       is: False
-  - 'Guess': date_last_known
+  - 'Best guess of when you last had contact with ${ other_parties[0].name }}': last_contact_date
     show if:
-      variable: do_not_know
+      variable: last_contact_unknown
       is: True
 ---
 id: efforts taken
