@@ -74,8 +74,8 @@ code: |
   defendants[0].phone_number
   defendants[0].email
   defendants[0].address.address
+  date_last_known
   last_contact_date
-  written_guess
   check_phone
   check_text
   if check_phone: 
