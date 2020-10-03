@@ -18,37 +18,41 @@ fields:
     datatype: yesno
   - 'Date of last contact with ${ other_parties[0].name }': last_contact_date
     datatype: date
-    show if: 
+    hide if: 
       variable: last_contact_unknown
-      is: False
-  - 'Best guess of when you last had contact with ${ other_parties[0].name }}': last_contact_date
+      is: True
+  - 'Best guess of when you last had contact with ${ other_parties[0].name }': last_contact_guess
     show if:
       variable: last_contact_unknown
       is: True
 ---
 id: efforts taken
 question: |
-  What efforts have you taken to find the defendant?
+  What efforts have you taken to find ${ other_parties[0].name }?
 subquestion: |
   Check all that apply
 fields:
-  - 'By phone': check_phone
+  - 'I called them at their last known phone number': check_phone
     datatype: yesnowide
-  - 'By text': check_text
+  - 'I texted them at their last known phone number': check_text
     datatype: yesnowide
-  - 'By email': check_email
+  - 'I emailed them at their last known e-mail': check_email
     datatype: yesnowide
-  - 'By social': social_check
+  - 'I looked for them on social media': social_check
     datatype: yesnowide
-  - 'By internet search': internet_search_check
+  - 'I searched the internet': internet_search_check
     datatype: yesnowide
-  - 'Child support check': child_support_check
+  - 'I contacted someone who knows this person': friends_family_check
     datatype: yesnowide
-  - 'By friends family ': friends_family_check
+  - 'I have a child suppport and contacted the Department of Revenue': child_support_check
     datatype: yesnowide
-  - 'Military check': military_check
+    help: |
+      This means you have a child support case with this person, and contacted the Department of Revenue, Child Support Enforcement Division and they will not release any information to you.
+  - 'I compleded a military search': military_check
     datatype: yesnowide
-  - 'Other contact check': other_contact_check
+    help: |
+       This means you went the Defense of Manpower Data Center (DMDC) website, https://scra.dmdc.osd.mil, and submitted a "Single Record Request" to obtain a report certifying the active duty status of the person. You will need to provide a copy of the report to the court. 
+  - 'I tried to make contact in another way': other_contact_check
     datatype: yesnowide  
 ---
 id: tried by phone
@@ -57,7 +61,7 @@ question: |
 subquestion: |
   Please provide the telephone number you tried to call and if you recieved a reply
 fields:
-  - Defendant phone number: defendants[0].phone_number
+  - Defendant phone number: other_parties[0].phone_number
   - Response to phone call: call_response
 ---
 id: tried by text
@@ -66,8 +70,8 @@ question: |
 subquestion: |
   Please provide the telephone number you tried to text and if you recieved a reply
 fields:
-  - Defendant phone number: defendants[0].phone_number
-  - Response to text: text_response
+  - Defendant phone number: other_parties[0].phone_number
+  - Response from defendant: text_response
 ---
 id: contact by email
 question: |
@@ -75,82 +79,83 @@ question: |
 subquestion: |
   Please provide {str(defendants[0])} email address you used to and if you recieved a reply
 fields:
-  - Defendant's email: defendants[0].email
-  - Response to email : email_response
+  - Defendant's email: other_parties[0].email
+  - Response from defendant: email_response
 ---
 id: social media
 question: |
-  Tell the court about when you tried to contact the defendant through social meida
+  Tell the court about when you tried to contact the defendant through social media
 subquestion: |
    Provide the social media you reached out on, the date of the contact, and if you recieved a reply  
 fields:
-  - Social media site: social_media_site1
-    required: False
-  - Date you tried to contact: social_date1
+  - 'Social media site': social_media_site1
+  - 'Date of attempt': social_date1
     datatype: date 
+  - 'Response from defendant': social_response1
+  - 'Social media site': social_media_site2
     required: False
-  - Social response: social_response1
-    required: False
-  - Social media site: social_media_site2
-    required: False
-  - Date you tried this contact: social_date2
+  - 'Date you tried': social_date2
     datatype: date
     required: False
-  - Social response: social_response2
+  - 'Response from defendant': social_response2
     required: False
 ---
 id: internet search
 question: |
   Tell the court about when you tried to contact the defendant by searching the internet
 subquestion: |
-   Provide the social media you reached out on, the date of the contact, and if you recieved a reply 
+   Provide the website you reached out on, the date of the contact, and if you recieved a reply 
 fields:
-  - 'Website name': website_name1
+  - 'Website': website_name1
+  - 'Date of attempt': website_date1
+    datatype: date
+  - 'Response': website_response1
+  - 'Website': website_name2
     required: False
-  - 'Date you tried website contact': website_date1
+  - 'Date of attempt': website_date2
     datatype: date
     required: False
-  - 'Website response': website_response1
-    required: False
-  - 'Website name': website_name2
-    required: False
-  - 'Date you tried website contact': website_date2
-    datatype: date
-    required: False
-  - 'Website response': website_response2
+  - 'Response': website_response2
     required: False
 ---
 id: friends and family
 question: |
   Tell the court about when you tried to contact the defendant through friends, family, employer, landlord, neighbors
 fields:
-  - 'Person contacted': friend_contacted1
-    required: False
+  - 'Name of person contacted': friend_contacted1
   - 'Relationship to defendant': relationship_name1
-    required: False
-  - 'Date contacted': relationship_date1
+  - 'Date of attempt': relationship_date1
     datatype: date
-    required: False
   - 'Response from this person': relationship_info1
-    required: False
-  - 'Person contacted': friend_contacted2
+  - 'Name of person contacted': friend_contacted2
     required: False
   - 'Relationship to defendant': relationship_name2
     required: False
-  - 'Date contacted': relationship_date2
+  - 'Date of attempt': relationship_date2
     datatype: date
     required: False
-  - 'Response from this person': relationship_infor2
+  - 'Response from this person': relationship_info2
     required: False
+--- 
+id: other attempt info
+question: | 
+  Describe anything else you did to locate the person
+fields: 
+  - no label: other_contact_info
 ---
 id: attempts to serve
 question: |
-  Have you tried to tell DEFENDANT about this case?
+  Have you tried to tell ${ other_parties[0].name } about this case?
 subquestion: | 
   This is called "serving" the defendant
 fields:
-  - 'Sheriff ': sheriff_check
-    datatype: yesnowide
-  - 'No attempt ': no_attempt_check
-    datatype: yesnowide
+  - no label: service_attempted
+    input type: radio
+    choices: 
+    - 'An authorized person tried but was not able to': sheriff_check
+      help: | 
+        The Sheriffs Department, a constable, or other disinterested person authorized by law attempted to serve the person but was not able to do so. You will be required to provided the court with an affidavit concerning attempts made to serve the person, a copy of which is attached.
+    - 'I have not tried to make service.': no_attempt_check
 # comment: make either or, can't check both 
+      help: |
+        You have not attempted service because you do not know the persons whereabouts, current address, last known address, or their last known address is my current address.

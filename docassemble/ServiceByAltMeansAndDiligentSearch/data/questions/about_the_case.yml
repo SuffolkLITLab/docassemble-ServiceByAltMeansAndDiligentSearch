@@ -10,50 +10,51 @@ include:
 ---
 id: open case
 question: | 
-  % if user_is == False:
-  Do you already have a case in the Probate and Family Court?
-  % else:
-  Is this related to an open case in the Probate and Family Court?
-  % endif 
+  Do you have a docket number with the Probate and Family Court?
 yesno: open_case
 ---
 id: docket number
 question: |
   What is the docket number for your case? 
-list collect: True
 fields:
-  - 'no label': docket_numbers[i]
----
-id: case name 
-reconsider: True
-code: |
-  ask_case = users[0].name.first + ' ' + users[0].name.last + ' ' + 'vs.' + ' ' + other_parties[0].name.first + ' ' + other_parties[0].name.last
+  - 'no label': docket_number
 ---
 id: case name
-question: |
-  Is this the name of your case?
-subquestion: | 
-  ${ ask_case }
-yesno: correct_case_name
---- 
-id: reask 
-question: | 
-  If the name of your case is **not** *${ ask_case }*, what is the name of your case? 
-fields: 
- - no label: correct_case
----
-id: edit case
 question: | 
   What is the name of your case? 
-fields:
- - 'no label': case_name
-   show if: 
-     variable: correct_case_name 
-     is: False
+fields: 
+  no label: case_name 
+---
+# id: case name logic
+# reconsider: True
+# code: |
+#  ask_case = users[0].name.first + ' ' + users[0].name.last + ' ' + 'vs.' + ' ' + other_parties[0].name.first + ' ' + other_parties[0].name.last 
+# ---
+# id: case name
+# question: |
+#   Is this the name of your case?
+# subquestion: | 
+#   ${ ask_case }
+# yesno: correct_case_name
+# --- 
+# id: reask 
+# question: | 
+#   If the name of your case is **not** *${ ask_case }*, what is the name of your case? 
+# fields: 
+#  - no label: correct_case
+# ---
+# id: edit case
+# question: | 
+#   What is the name of your case? 
+# fields:
+#  - 'no label': case_name
+#    show if: 
+#      variable: correct_case_name 
+#      is: False
 ---
 id: names of opposing parties
 question: |
-  What the name of the **defendant** or respondent in this
+  What the name of the defendant in this
   case?
 fields:
   - First name: other_parties[0].name.first
@@ -66,27 +67,36 @@ fields:
     required: False      
 ---
 id: defendant last known address
-generic object: Individual
 question: |
-  What is ${ x.possessive('last known address') }?
+  What is the defendant's last know address?
+# ${ defendant[1-1].name.possessive('last known address') }?
 fields:
-  - Address unknown: address_unknown
-    datatype: yesnowide
-  - Street address: defendant.address.address
-    address autocomplete: True
-  - Unit: defendant.address.unit
+  - I do not know their address: address_unknown 
+    datatype: yesno
+    disable others: True
+  - Street address: other_parties[0].address.address
+    address autocomplete: True 
+  - Unit: other_parties[0].address.unit
     required: False
-  - City: defendant.address.city
-  - State: defendant.address.state
+  - City: other_parties[0].address.city
+  - State: other_parties[0].address.state
     default: MA   
     code: |
-      states_list()   
-  - Zip: defendant.address.zip
+      states_list() 
+  - Zip: other_parties[0].address.zip
     required: False
+---
+code: |
+if address_unknown:
+  other_parties[0].address.address = ' '
+  other_parties[0].address.unit = ' '
+  other_parties[0].address.city = ' '
+  other_parties[0].address.state = ' ' 
+  other_parties[0].address.zip = ' '  
 ---
 id: date defendant last lived at address 
 question: |
-  When did  ${ other_parties[0].name } last live at ${ other_parties[0].address } ?
+  When did  ${ other_parties[0].name } last live at <br> ${ other_parties[0].address } ?
 subquestion: |
   This can be a guess or the exact date 
 fields:
@@ -97,7 +107,7 @@ fields:
     show if: 
       variable: do_not_know
       is: False
-  - 'Best guess when ${ other_parties[0].name } last lived at ${ other_parties[0].address }': date_last_known
+  - 'Best guess when ${ other_parties[0].name } last lived at ${ other_parties[0].address }': address_date_guess
     show if:
       variable: do_not_know
       is: True
@@ -106,23 +116,23 @@ id: ask court
 continue button field:         
   What_would_you_like_to_request_the_court_allow_you_to_do
 question: |
-  What would you like to ask the court allow you to do?
+  How would you like to provide service?
 fields:
   - no label: service_request
     input type: radio
     choices: 
-      - Provide service by publication in the newspaper: publication_only
-      - Provide service by publication in the newspaper and mailing the defendant: publication_mail
-      - Provide service by other means not prohibited by law: other_means
-  - I would like to provide service: means_specified
+      - By publication in the newspaper: publication_only
+      - By publication in the newspaper and mailing the defendant: publication_mail
+      - By a different way not prohibited by law: other_means
+  - Explain how you would like to provide service: means_specified
     show if:
       variable: service_request 
       is: other_means
     input type: radio 
     choices: 
-      - Specify service: specify_service
-      - Instruct me on service: instruct_service
-  - Specify info: specify_info
+      - Ask the court to instruct you on service: instruct_service
+      - I have a specific idea in mind: specify_service
+  - What did you have in mind?: specify_info
     show if: 
       variable: means_specified
       is: specify_service
