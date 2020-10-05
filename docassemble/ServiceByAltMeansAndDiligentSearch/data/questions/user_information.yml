@@ -8,13 +8,10 @@ include:
 ---
 # comment: yml for any other users 
 ---
-# id: any other users
-# question: |
-#   Are you the plaintiff or helping the plaintiff? 
-# field: user_is
-# buttons: 
-#   - I am the plaintiff: False
-#   - I am the attorney for the plaintiff: True
+id: any other users
+question: |
+  Are you an attorney
+yesno: is_attorney
 ---
 id: plaintiff name
 question:  |
@@ -29,21 +26,39 @@ fields:
       name_suffix()
     required: False 
 ---
-id: BBO number
+id: attorney info
 question: |
-  Please provide your BBO number for the court
+  Please provide your information for the court 
 fields:
-  - 'BBO number': BBO_number
+  - Attorney Full Name: attorney_name_full
+  - BBO number: BBO_number
     required: False
-  
+
 # comment: only appear if the attorney is user 
 ---
-#id: bbo logic 
-#code: |
-#  if not user_is: 
-#    BBO_number = ' ' 
-#  else:
-#    BBO_number
+id: bbo logic 
+code: |
+  if not is_attorney: 
+    attorney_name_full = ' '
+    attorney_address.address = ' ' 
+    attorney_address.unit = ' ' 
+    attorney_addresss.city = ' '
+    attorney_address.state = ' ' 
+    BBO_number = ' ' 
+---
+id: attorney single contact input 
+code: | 
+  if is_attorney: 
+     attorney_email = users[0].email
+     attorney_phone = users[0].phone_number
+     attorney_address.address = users[0].address.address
+     attorney_address.unit = users[0].address.unit
+     attorney_addresss.city = users[0].address.city
+     attorney_address.state = users[0].address.state 
+     BBO_number = ' ' 
+  else: 
+    attorney_email = ' '
+    attorney_phone = ' '
 ---
 id: user address
 question: |

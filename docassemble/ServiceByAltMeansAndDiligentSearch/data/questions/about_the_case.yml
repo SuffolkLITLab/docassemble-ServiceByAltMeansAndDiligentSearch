@@ -104,13 +104,26 @@ fields:
     datatype: yesno
   - '${ other_parties[0].name } last lived at ${ other_parties[0].address } ': date_last_known
     datatype: date
-    show if: 
-      variable: do_not_know
-      is: False
+    hide if: do_not_know
   - 'Best guess when ${ other_parties[0].name } last lived at ${ other_parties[0].address }': address_date_guess
-    show if:
-      variable: do_not_know
-      is: True
+    show if: do_not_know
+---
+id: address unknown logic
+code: |
+  if do_not_know: 
+    other_parties[0].address.address = ' '
+    other_parties[0].address.unit = ' '
+    other_parties[0].address.city = ' '
+    other_parties[0].address.state = ' ' 
+    other_parties[0].address.zip = ' '  
+    date_last_known = ' ' 
+  else: 
+    other_parties[0].address.address
+    other_parties[0].address.unit
+    other_parties[0].address.city
+    other_parties[0].address.state 
+    other_parties[0].address.zip
+    date_last_known
 ---
 id: ask court
 continue button field:         
