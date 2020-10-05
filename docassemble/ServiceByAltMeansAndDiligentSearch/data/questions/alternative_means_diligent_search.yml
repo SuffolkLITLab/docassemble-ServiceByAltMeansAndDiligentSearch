@@ -56,14 +56,16 @@ code: |
   # Set the preferred/allowed courts for this interview
   allowed_courts = interview_metadata["service_by_alternate_means_diligent_search"]["allowed courts"]
   nav.set_section('review_service_by_alternate_means_diligent_search')
-  user_is
-  users.ask_number = True 
+  if not form_selector:
+    kick_out_other_form
+  # user_is
+  #users.ask_number = True 
   users.target_number = 1
   open_case
   if open_case:
-    docket_numbers[0]
+    docket_number
   else: 
-    docket_numbers[0] = ' '
+    docket_number = ' '
   service_request
   user_ask_role = 'plaintiff'
   users[0].name.first
@@ -72,15 +74,26 @@ code: |
   users[0].phone_number
   users[0].email
   other_parties[0].person_type = 'individual'
+  case_name
   str(defendants[0])
-  if correct_case_name: 
-    case_name = ask_case
+  #if correct_case_name: 
+  #  case_name = ask_case
+  #else: 
+  #  case_name = correct_case
+  if address_unknown: 
+    other_parties[0].address.address = ' '
+    other_parties[0].address.unit = ' '
+    other_parties[0].address.city = ' '
+    other_parties[0].address.state = ' ' 
+    other_parties[0].address.zip = ' '  
+    date_last_known = ' ' 
   else: 
-    case_name = correct_case
-  defendants[0].phone_number
-  defendants[0].email
-  defendants[0].address.address
-  date_last_known
+    other_parties[0].address.address
+    other_parties[0].address.unit
+    other_parties[0].address.city
+    other_parties[0].address.state 
+    other_parties[0].address.zip
+    date_last_known
   last_contact_date
   check_phone
   check_text
@@ -96,9 +109,10 @@ code: |
     website_name1
   if friends_family_check:
     friend_contacted1
-  sheriff_check
-  BBO_number
-  case_name
+  if other_contact_check:
+    other_contact_info
+  service_attempted
+  # BBO_number
   str(courts[0])
   courts[0].division
   signature_date
@@ -109,14 +123,65 @@ code: |
 ---
 comment: |
   This question is used to introduce your interview. Please customize
-id: Motion For Service By Alternate Means and Affidavit of Diligent Search
+id: intro to form
 continue button field: service_by_alternate_means_diligent_search_intro
 question: |
   Motion For Service By Alternate Means and Affidavit of Diligent Search
 subquestion: |
   If the sheriff could not serve the defendant in person or if you do not know where the Defendant lives, ask the court for an order for Alternate Service by Publication and Mailing. 
   
-  This order tells you to publish the summons in the newspaper and mail the summons and complaint to the defendant at the last address you have for him or her.
+   Probate and Family courts across Massachusetts do not all use the same forms. **Before you begin this form**, Call the clerk at the court that is hearing your case and ask the clerk your which form you should use:
+   
+     * The Motion for Service by Alternate Means and Affidavit of Diligent Search; **or**
+     * The Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service. 
+     
+help: 
+  label: How to contact the court 
+  heading: How to contact the court
+  content: |
+    ### How to contact the court to find out which form to use
+    
+    There is a Probate and Family Court in each county in Massachusetts.
+    
+    If your spouse still lives in the county where you last lived together, you have to file for separate support in the [Probate  Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in that county. If your spouse does not live in the same county where you last lived together, you can file a Complaint for Separate Support in the Probate and Family Court in the county where you live or in the Probate and Family Court in the county where your spouse lives.
+ 
+    Only you know the right choice.
+    
+    You can also view the Probate and Family Court Locations at [mass.gov](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1).
+    
+    If you are responding to a case someone else filed, you may not
+    get to choose your court. Select the court that is already
+    listed on your court paperwork.
+
+---
+id: form selcton 
+question: | 
+  What form did the clerk tell you to use? 
+subquestion: | 
+  Call the court and ask the clerk. 
+field: form_selector 
+buttons: 
+  - "Service by Alternate Means and Affidavit of Diligent Search": True
+  -  "Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service": False 
+---
+id: kick out other form
+event: kick_out_other_form
+question: |
+  Sorry
+subquestion: |
+  You said the court uses "The Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service."
+  
+  We can only help if the court uses The Motion for Service by Alternate Means and Affidavit of Diligent Search .  
+  
+   To find the Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service tap [here](https://www.masslegalhelp.org/family/cjd400-motion-for-alternate-service-and-affidavit.pdf).
+  
+  Learn more about alternative service:  
+  
+  * [Alternate Service of Divorce/Separate Support Summons](https://www.masslegalhelp.org/children-and-families/probate-and-family-court/service/publication).
+buttons: 
+  - Exit: exit
+    url: https://massaccess.suffolklitlab.org/
+  - Restart: restart
 ---
 id: Placeholder preview screen
 continue button field: service_by_alternate_means_diligent_search_preview_question
@@ -156,7 +221,6 @@ attachment:
     skip undefined: True
     pdf template file: service_by_alternate_means_diligent_search.pdf
     fields: 
-      - "docket_number": ${ docket_number }
       - "court_name": ${ str(courts[0]) }
       - "court_division": ${ courts[0].division }
       - "defendant_name": ${ str(defendants[0]) }
@@ -166,9 +230,9 @@ attachment:
       - "defendant_city": ${defendants[0].address.city}
       - "defendant_state": ${defendants[0].address.state}
       - "defendant_zip": ${defendants[0].address.zip}
-      - "defendant_phone": ${ defendants[0].phone_number }
-      - "defendant_email": ${ defendants[0].email }
-      - "docket_number": ${ docket_number }
+      - "other_parties[0].phone_number": ${ other_parties[0].phone_number }
+      - "other_parties[0].email": ${ other_parties[0].email }
+      - "docket_number": ${ docket_number}
       # If it is a signature, test which file version we're expecting. leave it empty unless it's the final attachment version
       - "user_signature": ${ users[0].signature if i == 'final' else '' }
       - "signature_date": ${ signature_date }
@@ -187,10 +251,10 @@ attachment:
       - "specify_service": ${ service_request == "other_means" and means_specified == 'specify_service' }
       - "instruct_service": ${ service_request == "other_means" and means_specified == instruct_service }
       - "specify_info": ${ specify_info }
-      - "date_last_known": ${ date_last_known or address_date_guess }
-      - "last_contact_date": ${ last_contact_date }
+      - "date_last_known": ${ format_date(date_last_known='MM/dd/yyyy') or address_date_guess }
+      - "last_contact_date": ${ format_date(last_contact_date, format='MM/dd/yyyy') or last_contact_guess}
       - "check_phone_text": ${ check_phone or check_text }	     
-      - "phone_response": ${ phone_response or text_response }
+      - "phone_response": ${ phone_response + text_response }
       - "check_email": ${ check_email }
       - "email_response": ${ email_response }
       - "social_check": ${ social_check }
@@ -216,12 +280,13 @@ attachment:
       - "friend_contacted2": ${ friend_contacted2 }
       - "relationship_name2": ${ relationship_name2 }
       - "relationship_date2": ${ relationship_date2 }
-      - "relationship_infor2": ${ relationship_infor2 }
+      - "relationship_info2": ${ relationship_info2 }
       - "military_check": ${ military_check }
       - "other_contact_check": ${ other_contact_check }
-      - "sheriff_check": ${ sheriff_check }
-      - "no_attempt_check": ${ no_attempt_check }
-      - "BBO_number": ${ BBO_number }
+      - "other_contact_info": ${ other_contact_info }
+      - "sheriff_check": ${service_attempted == 'sheriff_check' }
+      - "no_attempt_check": ${ service_attempted == 'no_attempt_check' }
+      # - "BBO_number": ${ BBO_number }
 --- 
 id: review screens
 event: review_service_by_alternate_means_diligent_search

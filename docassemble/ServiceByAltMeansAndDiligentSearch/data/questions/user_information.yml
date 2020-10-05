@@ -8,21 +8,17 @@ include:
 ---
 # comment: yml for any other users 
 ---
-id: any other users
-question: |
-  Are you the plaintiff or helping the plaintiff? 
-field: user_is
-buttons: 
-  - I am the plaintiff: False
-  - I am the attorney for the plaintiff: True
+# id: any other users
+# question: |
+#   Are you the plaintiff or helping the plaintiff? 
+# field: user_is
+# buttons: 
+#   - I am the plaintiff: False
+#   - I am the attorney for the plaintiff: True
 ---
 id: plaintiff name
 question:  |
-  % if user_is == False:
   What is your name?
-  % else:
-  What is your client's name?
-  % endif 
 fields:
   - First Name: users[0].name.first
   - Middle Name: users[0].name.middle
@@ -42,26 +38,18 @@ fields:
   
 # comment: only appear if the attorney is user 
 ---
-id: bbo logic 
-code: |
-  if not user_is: 
-    BBO_number = ' ' 
-  else:
-    BBO_number
+#id: bbo logic 
+#code: |
+#  if not user_is: 
+#    BBO_number = ' ' 
+#  else:
+#    BBO_number
 ---
 id: user address
 question: |
-  % if user_is == False:
   What is your address?
-  % else:
-  What is your client's address?
-  % endif 
 subquestion: |
-  % if user_is == False:
   What address should the court use to mail papers to you?
-  % else:
-  What is your client's address?
-  % endif 
 fields:
   - Street address: users[0].address.address
     address autocomplete: True
