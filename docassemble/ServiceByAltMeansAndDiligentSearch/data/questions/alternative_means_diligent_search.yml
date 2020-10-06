@@ -71,8 +71,6 @@ code: |
   users[0].name.first
   str(users[0])
   users[0].address.city
-  users[0].phone_number
-  users[0].email
   other_parties[0].person_type = 'individual'
   case_name
   str(defendants[0])
@@ -81,20 +79,10 @@ code: |
   #else: 
   #  case_name = correct_case
   if address_unknown: 
-    other_parties[0].address.address = ' '
-    other_parties[0].address.unit = ' '
-    other_parties[0].address.city = ' '
-    other_parties[0].address.state = ' ' 
-    other_parties[0].address.zip = ' '  
-    date_last_known = ' ' 
-  else: 
-    other_parties[0].address.address
-    other_parties[0].address.unit
-    other_parties[0].address.city
-    other_parties[0].address.state 
-    other_parties[0].address.zip
-    date_last_known
-  last_contact_date
+    address_date_guess 
+  else:
+    address_date
+  last_contact_unknown
   check_phone
   check_text
   if check_phone: 
@@ -120,6 +108,9 @@ code: |
   basic_questions_signature_flow
   users[0].signature
   service_by_alternate_means_diligent_search = True
+  #if is_attorney:
+  #  attorney_name_full
+  # users[0].phone_number
 ---
 comment: |
   This question is used to introduce your interview. Please customize
@@ -128,12 +119,13 @@ continue button field: service_by_alternate_means_diligent_search_intro
 question: |
   Motion For Service By Alternate Means and Affidavit of Diligent Search
 subquestion: |
-  If the sheriff could not serve the defendant in person or if you do not know where the Defendant lives, ask the court for an order for Alternate Service by Publication and Mailing. 
+  Use this form and ask the court for an order for Alternate Service by Publication and Mailing if you do not know where the Defendant lives or if the sheriff could not serve the defendant in person.
   
-   Probate and Family courts across Massachusetts do not all use the same forms. **Before you begin this form**, Call the clerk at the court that is hearing your case and ask the clerk your which form you should use:
+   Probate and Family courts across Massachusetts do not all use the same forms. **Before you begin this form**, call the clerk at the court that is hearing your case and ask the clerk your which form you should use:
    
-     * The Motion for Service by Alternate Means and Affidavit of Diligent Search; **or**
-     * The Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service. 
+   * The Motion for Service by Alternate Means and Affidavit of Diligent Search; **or**
+   
+  * The Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service. 
      
 help: 
   label: How to contact the court 
@@ -143,7 +135,7 @@ help:
     
     There is a Probate and Family Court in each county in Massachusetts.
     
-    If your spouse still lives in the county where you last lived together, you have to file for separate support in the [Probate  Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in that county. If your spouse does not live in the same county where you last lived together, you can file a Complaint for Separate Support in the Probate and Family Court in the county where you live or in the Probate and Family Court in the county where your spouse lives.
+    The county where you file for separate support depends on the county your spouse lives in. If your spouse still lives in the county where you last lived together, you have to file a Complaint for Separate Support in the [Probate  Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in that county. If your spouse does not live in the same county where you last lived together, you can file for separate support in the Probate and Family Court in the county where you live or in the county where your spouse lives.
  
     Only you know the right choice.
     
@@ -154,13 +146,13 @@ help:
     listed on your court paperwork.
 
 ---
-id: form selcton 
+id: form selecton 
 question: | 
   What form did the clerk tell you to use? 
 subquestion: | 
   Call the court and ask the clerk. 
 field: form_selector 
-buttons: 
+choices: 
   - "Service by Alternate Means and Affidavit of Diligent Search": True
   -  "Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service": False 
 ---
@@ -225,11 +217,10 @@ attachment:
       - "court_division": ${ courts[0].division }
       - "defendant_name": ${ str(defendants[0]) }
       - "address_unknown": ${ address_unknown }
-      - "defendant_address_street": ${ defendants[0].address.address }
-      - "defendant_address_unit": ${users[0].address_unit}
-      - "defendant_city": ${defendants[0].address.city}
-      - "defendant_state": ${defendants[0].address.state}
-      - "defendant_zip": ${defendants[0].address.zip}
+      - "defendant_address_street": ${ other_parties[0].address.line_one() }
+      - "defendant_city": ${other_parties[0].address.city}
+      - "defendant_state": ${other_parties[0].address.state}
+      - "defendant_zip": ${other_parties[0].address.zip}
       - "other_parties[0].phone_number": ${ other_parties[0].phone_number }
       - "other_parties[0].email": ${ other_parties[0].email }
       - "docket_number": ${ docket_number}
@@ -242,7 +233,8 @@ attachment:
       - "user_address_city": ${ users[0].address.city }
       - "user_address_state": ${ users[0].address.state }
       - "user_address_zip": ${ users[0].address.zip }
-      - "user_phone": ${ users[0].phone_number or users[0].mobile_number}
+      - "attorney_phone": ${ attorney_phone }
+      - "attorney_email":  ${ attorney_email }
       - "user_email": ${ users[0].email }
       - "case_name": ${ case_name or corrected_case_name }
       - "publication_only": ${ service_request == "publication_only" }
@@ -251,10 +243,12 @@ attachment:
       - "specify_service": ${ service_request == "other_means" and means_specified == 'specify_service' }
       - "instruct_service": ${ service_request == "other_means" and means_specified == instruct_service }
       - "specify_info": ${ specify_info }
-      - "date_last_known": ${ format_date(date_last_known='MM/dd/yyyy') or address_date_guess }
-      - "last_contact_date": ${ format_date(last_contact_date, format='MM/dd/yyyy') or last_contact_guess}
-      - "check_phone_text": ${ check_phone or check_text }	     
-      - "phone_response": ${ phone_response + text_response }
+      - "date_last_known": ${ address_date_guess or (format_date(address_date, format='MM/dd/yyyy')) }
+      - "last_contact_date": ${ last_contact_guess or (format_date(last_contact_date, format='MM/dd/yyyy')) }
+      - "check_phone_text": ${ check_phone }
+      - "check_phone_text": ${ check_text }
+      - "phone_response": ${ phone_response }
+      - "phone_response": ${ text_response }	     
       - "check_email": ${ check_email }
       - "email_response": ${ email_response }
       - "social_check": ${ social_check }
@@ -286,7 +280,7 @@ attachment:
       - "other_contact_info": ${ other_contact_info }
       - "sheriff_check": ${service_attempted == 'sheriff_check' }
       - "no_attempt_check": ${ service_attempted == 'no_attempt_check' }
-      # - "BBO_number": ${ BBO_number }
+      - "BBO_number": ${ BBO_number }
 --- 
 id: review screens
 event: review_service_by_alternate_means_diligent_search
@@ -339,10 +333,10 @@ review:
     button: |
       Defendant zip:
       ${ defendant_zip }
-  - Edit: date_last_known
+  - Edit: address_date
     button: |
       Date last known:
-      ${ date_last_known }
+      ${ address_date }
   - Edit: last_contact_date
     button: |
       Date of last contact:

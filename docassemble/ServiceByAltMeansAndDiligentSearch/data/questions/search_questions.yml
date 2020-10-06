@@ -48,7 +48,7 @@ fields:
     datatype: yesnowide
     help: |
       This means you have a child support case with this person, and contacted the Department of Revenue, Child Support Enforcement Division and they will not release any information to you.
-  - 'I compleded a military search': military_check
+  - 'I completed a military search': military_check
     datatype: yesnowide
     help: |
        This means you went the Defense of Manpower Data Center (DMDC) website, https://scra.dmdc.osd.mil, and submitted a "Single Record Request" to obtain a report certifying the active duty status of the person. You will need to provide a copy of the report to the court. 
@@ -77,7 +77,7 @@ id: contact by email
 question: |
   Tell the court about when you tried to contact the defendant by email
 subquestion: |
-  Please provide {str(defendants[0])} email address you used to and if you recieved a reply
+  Please provide ${ other_parties[0].name } email address you used to and if you recieved a reply
 fields:
   - Defendant's email: other_parties[0].email
   - Response from defendant: email_response
