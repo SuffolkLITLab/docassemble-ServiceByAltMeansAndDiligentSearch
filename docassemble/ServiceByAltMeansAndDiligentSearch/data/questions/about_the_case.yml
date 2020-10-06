@@ -96,21 +96,34 @@ if address_unknown:
 ---
 id: date defendant last lived at address 
 question: |
-  When did  ${ other_parties[0].name } last live at <br> ${ other_parties[0].address } ?
+  When did  ${ other_parties[0].name } last live at the above address ?
 subquestion: |
   This can be a guess or the exact date 
 fields:
   - 'I do not know the exact date': do_not_know
     datatype: yesno
-  - '${ other_parties[0].name } last lived at ${ other_parties[0].address } ': date_last_known
+  - '${ other_parties[0].name } last lived at the above address': address_date
     datatype: date
-    show if: 
-      variable: do_not_know
-      is: False
-  - 'Best guess when ${ other_parties[0].name } last lived at ${ other_parties[0].address }': address_date_guess
-    show if:
-      variable: do_not_know
-      is: True
+    hide if: do_not_know
+  - 'Best guess when ${ other_parties[0].name } last lived at the above address': address_date_guess
+    show if: do_not_know
+---
+id: address unknown logic
+code: |
+  if do_not_know: 
+    other_parties[0].address.address = ' '
+    other_parties[0].address.unit = ' '
+    other_parties[0].address.city = ' '
+    other_parties[0].address.state = ' ' 
+    other_parties[0].address.zip = ' '  
+    date_last_known = ' ' 
+  else: 
+    other_parties[0].address.address
+    other_parties[0].address.unit
+    other_parties[0].address.city
+    other_parties[0].address.state 
+    other_parties[0].address.zip
+    address_date or address_date_guess
 ---
 id: ask court
 continue button field:         
