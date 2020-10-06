@@ -70,9 +70,6 @@ code: |
   user_ask_role = 'plaintiff'
   users[0].name.first
   str(users[0])
-  users[0].address.city
-  users[0].phone_number
-  users[0].email
   other_parties[0].person_type = 'individual'
   case_name
   str(defendants[0])
@@ -81,22 +78,10 @@ code: |
   #else: 
   #  case_name = correct_case
   if address_unknown: 
-    other_parties[0].address.address = ' '
-    other_parties[0].address.unit = ' '
-    other_parties[0].address.city = ' '
-    other_parties[0].address.state = ' ' 
-    other_parties[0].address.zip = ' '  
-    date_last_known = ' ' 
-  else: 
-    other_parties[0].address.address
-    other_parties[0].address.unit
-    other_parties[0].address.city
-    other_parties[0].address.state 
-    other_parties[0].address.zip
+    address_date_guess 
+  else:
     date_last_known
   last_contact_unknown
-  last_contact_guess
-  last_contact_date
   check_phone
   check_text
   if check_phone: 
@@ -122,6 +107,10 @@ code: |
   basic_questions_signature_flow
   users[0].signature
   service_by_alternate_means_diligent_search = True
+  #if is_attorney:
+  #  attorney_name_full
+  # users[0].address.city
+  # users[0].phone_number
 ---
 comment: |
   This question is used to introduce your interview. Please customize
@@ -244,7 +233,8 @@ attachment:
       - "user_address_city": ${ users[0].address.city }
       - "user_address_state": ${ users[0].address.state }
       - "user_address_zip": ${ users[0].address.zip }
-      - "user_phone": ${ users[0].phone_number or users[0].mobile_number}
+      - "attorney_phone": ${ attorney_phone }
+      - "attorney_email":  ${ attorney_email }
       - "user_email": ${ users[0].email }
       - "case_name": ${ case_name or corrected_case_name }
       - "publication_only": ${ service_request == "publication_only" }
@@ -290,7 +280,7 @@ attachment:
       - "other_contact_info": ${ other_contact_info }
       - "sheriff_check": ${service_attempted == 'sheriff_check' }
       - "no_attempt_check": ${ service_attempted == 'no_attempt_check' }
-      # - "BBO_number": ${ BBO_number }
+      - "BBO_number": ${ BBO_number }
 --- 
 id: review screens
 event: review_service_by_alternate_means_diligent_search
