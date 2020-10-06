@@ -245,10 +245,8 @@ attachment:
       - "specify_info": ${ specify_info }
       - "date_last_known": ${ address_date_guess or (format_date(address_date, format='MM/dd/yyyy')) }
       - "last_contact_date": ${ last_contact_guess or (format_date(last_contact_date, format='MM/dd/yyyy')) }
-      - "check_phone_text": ${ check_phone }
-      - "check_phone_text": ${ check_text }
-      - "phone_response": ${ phone_response }
-      - "phone_response": ${ text_response }	     
+      - "check_phone_text": ${ check_phone or check_text }
+      - "phone_response": ${ call_response or text_response } ${ call_response and text_response }
       - "check_email": ${ check_email }
       - "email_response": ${ email_response }
       - "social_check": ${ social_check }
