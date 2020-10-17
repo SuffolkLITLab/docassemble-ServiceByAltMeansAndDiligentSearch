@@ -119,7 +119,7 @@ continue button field: service_by_alternate_means_diligent_search_intro
 question: |
   Motion For Service By Alternate Means and Affidavit of Diligent Search
 subquestion: |
-  Use this form and ask the court for an order for Alternate Service by Publication and Mailing if you do not know where the Defendant lives or if the sheriff could not serve the defendant in person.
+  Use this form to ask the court for an order for Alternate Service by Publication and Mailing if you do not know where the Defendant lives or if the sheriff could not serve the defendant in person.
   
    Probate and Family courts across Massachusetts do not all use the same forms. **Before you begin this form**, call the clerk at the court that is hearing your case and ask the clerk your which form you should use:
    
@@ -128,22 +128,22 @@ subquestion: |
   * The Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service. 
      
 help: 
-  label: How to contact the court 
-  heading: How to contact the court
+  label: Which court do I contact? 
+  heading: Which court do I contact? 
   content: |
-    ### How to contact the court to find out which form to use
+    ### How to decide which court to contact in order to find out which form to use
     
     There is a Probate and Family Court in each county in Massachusetts.
     
-    The county where you file for separate support depends on the county your spouse lives in. If your spouse still lives in the county where you last lived together, you have to file a Complaint for Separate Support in the [Probate  Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in that county. If your spouse does not live in the same county where you last lived together, you can file for separate support in the Probate and Family Court in the county where you live or in the county where your spouse lives.
+    * If your spouse still lives in the county where you last lived together, you have to file a Complaint for Separate Support in the [Probate  Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in that county. 
+    
+    * If your spouse does not live in the same county where you last lived together, you can file for separate support in the Probate and Family Court in the county where you live or in the county where your spouse lives.
  
     Only you know the right choice.
     
     You can also view the Probate and Family Court Locations at [mass.gov](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1).
     
-    If you are responding to a case someone else filed, you may not
-    get to choose your court. Select the court that is already
-    listed on your court paperwork.
+    If you are responding to a case someone else filed, select the court that is already listed on your court paperwork.
 
 ---
 id: form selecton 

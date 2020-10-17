@@ -10,12 +10,15 @@ include:
 ---
 id: open case
 question: | 
-  Do you have a docket number with the Probate and Family Court?
+  Do you already have an open case with the Probate and Family Court?
 yesno: open_case
 ---
 id: docket number
 question: |
-  What is the docket number for your case? 
+  What is the docket number for your case?
+subquestion: |
+  A docket number is the number the court uses to track your case. It will usually be in one of the upper corners of a document having to do with your case.
+
 fields:
   - 'no label': docket_number
 ---
@@ -130,6 +133,8 @@ continue button field:
   What_would_you_like_to_request_the_court_allow_you_to_do
 question: |
   How would you like to provide service?
+subquestion: |
+  You are asking the court permission to pick the way in which you let the opposing party know of the case.
 fields:
   - no label: service_request
     input type: radio
