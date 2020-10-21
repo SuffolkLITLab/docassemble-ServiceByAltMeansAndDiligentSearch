@@ -243,8 +243,18 @@ attachment:
       - "specify_service": ${ service_request == "other_means" and means_specified == 'specify_service' }
       - "instruct_service": ${ service_request == "other_means" and means_specified == instruct_service }
       - "specify_info": ${ specify_info }
-      - "date_last_known": ${ address_date_guess or (format_date(address_date, format='MM/dd/yyyy')) }
-      - "last_contact_date": ${ last_contact_guess or (format_date(last_contact_date, format='MM/dd/yyyy')) }
+      - "date_last_known": | 
+          % if address_unknown:
+          ${ address_date_guess }
+          % else:
+          ${ format_date(address_date, format='MM/dd/yyyy') }
+          % endif
+      - "last_contact_date": |
+          % if last_contact_unknown: 
+          ${ last_contact_guess }
+          % else: 
+          ${ format_date(last_contact_date, format='MM/dd/yyyy') }
+          % endif
       - "check_phone_text": ${ check_phone or check_text }
       - "phone_response": ${ call_response or text_response } ${ call_response and text_response }
       - "check_email": ${ check_email }

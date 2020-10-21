@@ -80,6 +80,7 @@ subquestion: |
   Please provide ${ other_parties[0].name } email address you used to and if you recieved a reply
 fields:
   - Defendant's email: other_parties[0].email
+    datatype: email
   - Response from defendant: email_response
 ---
 id: social media
