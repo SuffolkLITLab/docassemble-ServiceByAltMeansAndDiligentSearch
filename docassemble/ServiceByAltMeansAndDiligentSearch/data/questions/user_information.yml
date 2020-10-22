@@ -60,7 +60,7 @@ code: |
     attorney_email = ' '
     attorney_phone = ' '
 ---
-id: user address
+id: plaintiff address
 question: |
   What is your address?
 subquestion: |

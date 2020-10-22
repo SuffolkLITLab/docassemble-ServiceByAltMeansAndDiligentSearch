@@ -22,6 +22,8 @@ fields:
       variable: last_contact_unknown
       is: True
   - 'Best guess of when you last had contact with ${ other_parties[0].name }': last_contact_guess
+    hint:
+      e.g. around March 2020
     show if:
       variable: last_contact_unknown
       is: True
@@ -80,6 +82,7 @@ subquestion: |
   Please provide ${ other_parties[0].name } email address you used to and if you recieved a reply
 fields:
   - Defendant's email: other_parties[0].email
+    datatype: email
   - Response from defendant: email_response
 ---
 id: social media
@@ -136,7 +139,16 @@ fields:
     required: False
   - 'Response from this person': relationship_info2
     required: False
---- 
+---
+id: military_instructions
+question: |
+  Upload a copy of the "Single Record Request" you filed to obtain a report certifying the active duty status of the defendant.
+subquestion: |
+  You have to upload this because you need to file a copy with the court.
+fields:
+  Attachment: record_request
+  datatype: file
+---
 id: other attempt info
 question: | 
   Describe anything else you did to locate the person

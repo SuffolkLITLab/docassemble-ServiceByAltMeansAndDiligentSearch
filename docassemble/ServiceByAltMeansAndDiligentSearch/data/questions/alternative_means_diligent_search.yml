@@ -97,6 +97,8 @@ code: |
     website_name1
   if friends_family_check:
     friend_contacted1
+  if military_check:
+    record_request
   if other_contact_check:
     other_contact_info
   service_attempted
@@ -119,32 +121,38 @@ continue button field: service_by_alternate_means_diligent_search_intro
 question: |
   Motion For Service By Alternate Means and Affidavit of Diligent Search
 subquestion: |
-  Use this form and ask the court for an order for Alternate Service by Publication and Mailing if you do not know where the Defendant lives or if the sheriff could not serve the defendant in person.
+  Use this form to ask the court for an order for Alternate Service by Publication and Mailing if you do not know where the Defendant lives or if the sheriff could not serve the defendant in person.
   
    Probate and Family courts across Massachusetts do not all use the same forms. **Before you begin this form**, call the clerk at the court that is hearing your case and ask the clerk your which form you should use:
    
-   * The Motion for Service by Alternate Means and Affidavit of Diligent Search; **or**
+  * The Motion for Service by Alternate Means and Affidavit of Diligent Search; **or**
    
   * The Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service. 
      
 help: 
-  label: How to contact the court 
-  heading: How to contact the court
+  label: Which court do I contact? 
+  heading: Which court do I contact? 
   content: |
-    ### How to contact the court to find out which form to use
-    
+    ### How to decide which court to contact
+   
     There is a Probate and Family Court in each county in Massachusetts.
+    Which court you file a case in will depend on
     
-    The county where you file for separate support depends on the county your spouse lives in. If your spouse still lives in the county where you last lived together, you have to file a Complaint for Separate Support in the [Probate  Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in that county. If your spouse does not live in the same county where you last lived together, you can file for separate support in the Probate and Family Court in the county where you live or in the county where your spouse lives.
- 
-    Only you know the right choice.
+      * The type of case you are filing  **and,**
+      * Where you and the other party currently live.
+         
+    Sometimes you file the case in the Family and Probate Court in the county:
     
-    You can also view the Probate and Family Court Locations at [mass.gov](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1).
+      * Where you live.
+      * Where the other party lives.
+         
+    If you are not sure where to file your case, ask a Lawyer for the Day or a court clerk. Call your local [Probate and Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) to ask the hours of the in-person Lawyer for the Day Program. 
     
-    If you are responding to a case someone else filed, you may not
-    get to choose your court. Select the court that is already
-    listed on your court paperwork.
+    If there is no Lawyer for the Day program, ask to talk to someone in the clerk’s office. Filing your case in the wrong court could lead to many delays.
 
+    Find the [Probate and Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in your county.
+    
+    If you are responding to a case someone else filed, select the court that is already listed on your court paperwork.
 ---
 id: form selecton 
 question: | 
@@ -243,8 +251,18 @@ attachment:
       - "specify_service": ${ service_request == "other_means" and means_specified == 'specify_service' }
       - "instruct_service": ${ service_request == "other_means" and means_specified == instruct_service }
       - "specify_info": ${ specify_info }
-      - "date_last_known": ${ address_date_guess or (format_date(address_date, format='MM/dd/yyyy')) }
-      - "last_contact_date": ${ last_contact_guess or (format_date(last_contact_date, format='MM/dd/yyyy')) }
+      - "date_last_known": | 
+          % if address_unknown:
+          ${ address_date_guess }
+          % else:
+          ${ format_date(address_date, format='MM/dd/yyyy') }
+          % endif
+      - "last_contact_date": |
+          % if last_contact_unknown: 
+          ${ last_contact_guess }
+          % else: 
+          ${ format_date(last_contact_date, format='MM/dd/yyyy') }
+          % endif
       - "check_phone_text": ${ check_phone or check_text }
       - "phone_response": ${ call_response or text_response } ${ call_response and text_response }
       - "check_email": ${ check_email }
@@ -279,7 +297,7 @@ attachment:
       - "sheriff_check": ${service_attempted == 'sheriff_check' }
       - "no_attempt_check": ${ service_attempted == 'no_attempt_check' }
       - "BBO_number": ${ BBO_number }
---- 
+---
 id: review screens
 event: review_service_by_alternate_means_diligent_search
 question: |
