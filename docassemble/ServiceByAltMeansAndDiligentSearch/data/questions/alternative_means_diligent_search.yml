@@ -123,7 +123,7 @@ subquestion: |
   
    Probate and Family courts across Massachusetts do not all use the same forms. **Before you begin this form**, call the clerk at the court that is hearing your case and ask the clerk your which form you should use:
    
-   * The Motion for Service by Alternate Means and Affidavit of Diligent Search; **or**
+  * The Motion for Service by Alternate Means and Affidavit of Diligent Search; **or**
    
   * The Motion for Alternate Service by Publication and Mailing and the Affidavit in Support of Motion for Alternate Service. 
      
@@ -131,20 +131,26 @@ help:
   label: Which court do I contact? 
   heading: Which court do I contact? 
   content: |
-    ### How to decide which court to contact in order to find out which form to use
-    
+    ### How to decide which court to contact
+   
     There is a Probate and Family Court in each county in Massachusetts.
+    Which court you file a case in will depend on
     
-    * If your spouse still lives in the county where you last lived together, you have to file a Complaint for Separate Support in the [Probate  Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in that county. 
+      * The type of case you are filing  **and,**
+      * Where you and the other party currently live.
+         
+    Sometimes you file the case in the Family and Probate Court in the county:
     
-    * If your spouse does not live in the same county where you last lived together, you can file for separate support in the Probate and Family Court in the county where you live or in the county where your spouse lives.
- 
-    Only you know the right choice.
+      * Where you live.
+      * Where the other party lives.
+         
+    If you are not sure where to file your case, ask a Lawyer for the Day or a court clerk. Call your local [Probate and Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) to ask the hours of the in-person Lawyer for the Day Program. 
     
-    You can also view the Probate and Family Court Locations at [mass.gov](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1).
+    If there is no Lawyer for the Day program, ask to talk to someone in the clerk’s office. Filing your case in the wrong court could lead to many delays.
+
+    Find the [Probate and Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) in your county.
     
     If you are responding to a case someone else filed, select the court that is already listed on your court paperwork.
-
 ---
 id: form selecton 
 question: | 

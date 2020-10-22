@@ -24,7 +24,9 @@ fields:
 ---
 id: case name
 question: | 
-  What is the name of your case? 
+  What is the name of your case?
+subquestion: |
+  If you already had an open case with the court, use the name of that case here. If you are starting a new case, use **${ users[0].name.first} ${ users[0].name.last } v. ${ other_parties[0].name.first } ${ other_parties[0].name.last }**
 fields: 
   no label: case_name 
 ---
@@ -72,7 +74,7 @@ fields:
 id: defendant last known address
 question: |
   What is the defendant's last know address?
-# ${ defendant[1-1].name.possessive('last known address') }?
+# ${ defendant[0].name.possessive('last known address') }?
 fields:
   - I do not know their address: address_unknown 
     datatype: yesno
