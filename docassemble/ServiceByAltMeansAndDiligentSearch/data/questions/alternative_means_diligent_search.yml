@@ -97,6 +97,8 @@ code: |
     website_name1
   if friends_family_check:
     friend_contacted1
+  if military_check:
+    record_request
   if other_contact_check:
     other_contact_info
   service_attempted
@@ -295,7 +297,7 @@ attachment:
       - "sheriff_check": ${service_attempted == 'sheriff_check' }
       - "no_attempt_check": ${ service_attempted == 'no_attempt_check' }
       - "BBO_number": ${ BBO_number }
---- 
+---
 id: review screens
 event: review_service_by_alternate_means_diligent_search
 question: |

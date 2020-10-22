@@ -61,6 +61,8 @@ id: names of opposing parties
 question: |
   What the name of the defendant in this
   case?
+subquestion: | 
+  The defendant is the person you are suing. 
 fields:
   - First name: other_parties[0].name.first
   - Middle Name: other_parties[0].name.middle
@@ -113,6 +115,7 @@ fields:
       variable: do_not_know
       is: True
   - 'Best guess when ${ other_parties[0].name } last lived at the above address': address_date_guess
+    hint: e.g. August 2019
     show if:
       variable: do_not_know
       is: True
