@@ -78,10 +78,8 @@ code: |
   #  case_name = ask_case
   #else: 
   #  case_name = correct_case
-  if address_unknown: 
-    address_date_guess 
-  else:
-    address_date
+  address_unknown
+  address_date_guess 
   last_contact_unknown
   check_phone
   check_text
@@ -207,7 +205,7 @@ subquestion: |
   
   Below is a preview of your form.
   
-  ${service_by_alternate_means_diligent_search_attachment['final'] }
+  ${combined_motion}
 need: service_by_alternate_means_diligent_search
 attachment code: service_by_alternate_means_diligent_search_attachment['final']
 ---
@@ -297,6 +295,24 @@ attachment:
       - "sheriff_check": ${service_attempted == 'sheriff_check' }
       - "no_attempt_check": ${ service_attempted == 'no_attempt_check' }
       - "BBO_number": ${ BBO_number }
+---
+code: |
+  final_form_to_file = [general_cover_sheet, combined_motion]
+---
+code: |
+  form_to_file_no_cover = combined_motion
+---
+code: |
+  if military_check:
+    combined_motion = pdf_concatenate(service_by_alternate_means_diligent_search_attachment["final"], record_request, filename="motion_for_alt_service.pdf")
+  else:
+    combined_motion = service_by_alternate_means_diligent_search_attachment["final"]
+---
+code: |
+  if military_check:
+    form_to_sign = pdf_concatenate(service_by_alternate_means_diligent_search_attachment["preview"], record_request, filename="motion_for_alt_service.pdf")
+  else:
+    form_to_sign = service_by_alternate_means_diligent_search_attachment["preview"]
 ---
 id: review screens
 event: review_service_by_alternate_means_diligent_search
