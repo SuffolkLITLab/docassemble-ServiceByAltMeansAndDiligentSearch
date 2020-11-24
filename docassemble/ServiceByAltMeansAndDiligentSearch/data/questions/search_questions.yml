@@ -28,6 +28,33 @@ fields:
       variable: last_contact_unknown
       is: True
 ---
+id: military box
+question: | 
+  Is ${ other_parties[0].name } in the military?
+field: military_check
+choices: 
+  - "Yes": True
+  - "No" : False 
+---
+id: military question
+question: |
+  Did you submit a Single Record Request to get in contact with ${ other_parties[0].name }?
+subquestion: |
+  This means you went to the Defense of Manpower Data Center (DMDC) website, https://scra.dmdc.osd.mil, and submitted a "Single Record Request" to obtain a report certifying the active duty status of the person. You will need to provide a copy of the report to the court. 
+field: military_question
+choices:
+  -  "Yes": True
+  -  "No" : False 
+---
+id: military_instructions
+question: |
+  Upload a copy of the "Single Record Request" you filed to obtain a report certifying the active duty status of the defendant.
+subquestion: |
+  You have to upload this because you need to file a copy with the court.
+fields:
+  Attachment: record_request
+  datatype: file
+---
 id: efforts taken
 question: |
   What efforts have you taken to find ${ other_parties[0].name }?
@@ -49,11 +76,7 @@ fields:
   - 'I have a child suppport and contacted the Department of Revenue': child_support_check
     datatype: yesnowide
     help: |
-      This means you have a child support case with this person, and contacted the Department of Revenue, Child Support Enforcement Division and they will not release any information to you.
-  - 'I completed a military search': military_check
-    datatype: yesnowide
-    help: |
-       This means you went the Defense of Manpower Data Center (DMDC) website, https://scra.dmdc.osd.mil, and submitted a "Single Record Request" to obtain a report certifying the active duty status of the person. You will need to provide a copy of the report to the court. 
+      This means you have a child support case with this person, and contacted the Department of Revenue, Child Support Enforcement Division and they will not release any information to you. 
   - 'I tried to make contact in another way': other_contact_check
     datatype: yesnowide  
 ---
@@ -64,7 +87,9 @@ subquestion: |
   Please provide the telephone number you tried to call and if you recieved a reply
 fields:
   - Defendant phone number: other_parties[0].phone_number
+    maxlength: 23
   - Response to phone call: call_response
+    maxlength: 86
 ---
 id: tried by text
 question: |
@@ -73,7 +98,9 @@ subquestion: |
   Please provide the telephone number you tried to text and if you recieved a reply
 fields:
   - Defendant phone number: other_parties[0].phone_number
+    maxlength: 23
   - Response from defendant: text_response
+    maxlength: 86
 ---
 id: contact by email
 question: |
@@ -83,7 +110,9 @@ subquestion: |
 fields:
   - Defendant's email: other_parties[0].email
     datatype: email
+    maxlength: 36
   - Response from defendant: email_response
+    maxlength: 86
 ---
 id: social media
 question: |
@@ -92,16 +121,20 @@ subquestion: |
    Provide the social media you reached out on, the date of the contact, and if you recieved a reply  
 fields:
   - 'Social media site': social_media_site1
+    maxlength: 31
   - 'Date of attempt': social_date1
     datatype: date 
   - 'Response from defendant': social_response1
+    maxlength: 28
   - 'Social media site': social_media_site2
     required: False
+    maxlength: 31
   - 'Date you tried': social_date2
     datatype: date
     required: False
   - 'Response from defendant': social_response2
     required: False
+    maxlength: 28
 ---
 id: internet search
 question: |
@@ -110,50 +143,52 @@ subquestion: |
    Provide the website you reached out on, the date of the contact, and if you recieved a reply 
 fields:
   - 'Website': website_name1
+    maxlength: 31
   - 'Date of attempt': website_date1
     datatype: date
   - 'Response': website_response1
+    maxlength: 28
   - 'Website': website_name2
     required: False
+    maxlength: 31
   - 'Date of attempt': website_date2
     datatype: date
     required: False
   - 'Response': website_response2
     required: False
+    maxlength: 28
 ---
 id: friends and family
 question: |
   Tell the court about when you tried to contact the defendant through friends, family, employer, landlord, neighbors
 fields:
   - 'Name of person contacted': friend_contacted1
+    maxlength: 24
   - 'Relationship to defendant': relationship_name1
+    maxlength: 15
   - 'Date of attempt': relationship_date1
     datatype: date
   - 'Response from this person': relationship_info1
+    maxlength: 31
   - 'Name of person contacted': friend_contacted2
     required: False
+    maxlength: 24
   - 'Relationship to defendant': relationship_name2
     required: False
+    maxlength: 15
   - 'Date of attempt': relationship_date2
     datatype: date
     required: False
   - 'Response from this person': relationship_info2
     required: False
----
-id: military_instructions
-question: |
-  Upload a copy of the "Single Record Request" you filed to obtain a report certifying the active duty status of the defendant.
-subquestion: |
-  You have to upload this because you need to file a copy with the court.
-fields:
-  Attachment: record_request
-  datatype: file
+    maxlength: 31
 ---
 id: other attempt info
 question: | 
   Describe anything else you did to locate the person
 fields: 
   - no label: other_contact_info
+    maxlength: 90
 ---
 id: attempts to serve
 question: |

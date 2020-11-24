@@ -78,14 +78,19 @@ code: |
   #  case_name = ask_case
   #else: 
   #  case_name = correct_case
-  address_unknown
-  address_date_guess 
+  if not address_unknown:
+    if address_date_not_known:
+      address_date_guess
   last_contact_unknown
+  if military_check == True and military_question == True:
+    record_request
+  if not military_check:
+    check_phone
   check_phone
   check_text
-  if check_phone: 
+  if check_phone == True:
     call_response
-  if check_text: 
+  if check_text == True:
     text_response
   if check_email:
     email_response
@@ -95,8 +100,6 @@ code: |
     website_name1
   if friends_family_check:
     friend_contacted1
-  if military_check:
-    record_request
   if other_contact_check:
     other_contact_info
   service_attempted
@@ -133,8 +136,7 @@ help:
   content: |
     ### How to decide which court to contact
    
-    There is a Probate and Family Court in each county in Massachusetts.
-    Which court you file a case in will depend on
+    The court you will file your case in depends on:
     
       * The type of case you are filing  **and,**
       * Where you and the other party currently live.
@@ -144,7 +146,7 @@ help:
       * Where you live.
       * Where the other party lives.
          
-    If you are not sure where to file your case, ask a Lawyer for the Day or a court clerk. Call your local [Probate and Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) to ask the hours of the in-person Lawyer for the Day Program. 
+    If you are not sure where to file your case, ask the virtual Lawyer for the Day or a court clerk. Call your local [Probate and Family Court](https://www.mass.gov/orgs/probate-and-family-court/locations?_page=1) to ask the hours of the virtual Lawyer for the Day Program. 
     
     If there is no Lawyer for the Day program, ask to talk to someone in the clerk’s office. Filing your case in the wrong court could lead to many delays.
 
@@ -200,18 +202,21 @@ subquestion: |
   
   ### Next steps
   
-  1. Step 1
-  1. Step 2
+  1. Download and print out the PDF.
+  2. Mail or bring the document to the court where you are filing.
   
   Below is a preview of your form.
   
   ${combined_motion}
+  
+  ${ text_phone_response }
 need: service_by_alternate_means_diligent_search
 attachment code: service_by_alternate_means_diligent_search_attachment['final']
 ---
 objects:
   - service_by_alternate_means_diligent_search_attachment: DADict
 ---
+need: text_phone_response
 attachment:
     variable name: service_by_alternate_means_diligent_search_attachment[i]
     name: Service by Alternate Means and Diligent Search
@@ -250,10 +255,12 @@ attachment:
       - "instruct_service": ${ service_request == "other_means" and means_specified == instruct_service }
       - "specify_info": ${ specify_info }
       - "date_last_known": | 
-          % if address_unknown:
+          % if not address_unknown:
+          % if address_date_not_known:
           ${ address_date_guess }
           % else:
           ${ format_date(address_date, format='MM/dd/yyyy') }
+          % endif
           % endif
       - "last_contact_date": |
           % if last_contact_unknown: 
@@ -262,7 +269,7 @@ attachment:
           ${ format_date(last_contact_date, format='MM/dd/yyyy') }
           % endif
       - "check_phone_text": ${ check_phone or check_text }
-      - "phone_response": ${ call_response or text_response } ${ call_response and text_response }
+      - "phone_response": ${ text_phone_response }
       - "check_email": ${ check_email }
       - "email_response": ${ email_response }
       - "social_check": ${ social_check }
@@ -295,6 +302,15 @@ attachment:
       - "sheriff_check": ${service_attempted == 'sheriff_check' }
       - "no_attempt_check": ${ service_attempted == 'no_attempt_check' }
       - "BBO_number": ${ BBO_number }
+---
+template: text_phone_response
+content: |
+  % if check_phone == True:
+  ${ fix_punctuation(call_response) } 
+  % endif
+  % if check_text == True:
+  ${ text_response }
+  % endif
 ---
 code: |
   final_form_to_file = [general_cover_sheet, combined_motion]
