@@ -21,6 +21,7 @@ subquestion: |
 
 fields:
   - 'no label': docket_number
+    maxlength: 34
 ---
 id: case name
 question: | 
@@ -28,7 +29,8 @@ question: |
 subquestion: |
   If you already had an open case with the court, use the name of that case here. If you are starting a new case, use **${ users[0].name.first} ${ users[0].name.last } v. ${ other_parties[0].name.first } ${ other_parties[0].name.last }**
 fields: 
-  no label: case_name 
+  no label: case_name
+  maxlength: 54
 ---
 # id: case name logic
 # reconsider: True
@@ -65,9 +67,11 @@ subquestion: |
   The defendant is the person you are suing. 
 fields:
   - First name: other_parties[0].name.first
+    maxlength: 39
   - Middle Name: other_parties[0].name.middle
     required: False
   - Last name: other_parties[0].name.last
+    maxlength: 39
   - Suffix: other_parties[0].name.suffix
     code: |
       name_suffix()
@@ -82,16 +86,19 @@ fields:
     datatype: yesno
     disable others: True
   - Street address: other_parties[0].address.address
-    address autocomplete: True 
+    address autocomplete: True
+    maxlength: 38
   - Unit: other_parties[0].address.unit
     required: False
   - City: other_parties[0].address.city
+    maxlength: 22
   - State: other_parties[0].address.state
     default: MA   
     code: |
-      states_list() 
+      states_list()
   - Zip: other_parties[0].address.zip
     required: False
+    maxlength: 7
 ---
 code: |
 if address_unknown:
@@ -101,34 +108,35 @@ if address_unknown:
   other_parties[0].address.state = ' ' 
   other_parties[0].address.zip = ' '  
 ---
-id: date defendant last lived at address 
-question: |  
-  When did  ${ other_parties[0].name } last live at the above address ?
+id: last lived at address
+question: |
+  When did ${ other_parties[0].name } last live at the above address?
 subquestion: |
   This can be a guess or the exact date
 fields:
-  - 'I do not know the exact date': do_not_know
+  - 'I do not know the exact date': address_date_not_known
     datatype: yesno
   - '${ other_parties[0].name } last lived at the above address': address_date
     datatype: date
     hide if: 
-      variable: do_not_know
+      variable: address_date_not_known
       is: True
-  - 'Best guess when ${ other_parties[0].name } last lived at the above address': address_date_guess
-    hint: e.g. August 2019
+  - 'Best guess of when ${ other_parties[0].name } last lived at the above address': address_date_guess
+    hint:
+      e.g. March 2020
     show if:
-      variable: do_not_know
+      variable: address_date_not_known
       is: True
 ---
 id: address unknown logic
 code: |
-  if do_not_know: 
+  if address_date_not_known: 
     other_parties[0].address.address = ' '
     other_parties[0].address.unit = ' '
     other_parties[0].address.city = ' '
     other_parties[0].address.state = ' ' 
     other_parties[0].address.zip = ' '  
-    date_last_known = ' ' 
+    date_last_known = ' '
   else: 
     other_parties[0].address.address
     other_parties[0].address.unit

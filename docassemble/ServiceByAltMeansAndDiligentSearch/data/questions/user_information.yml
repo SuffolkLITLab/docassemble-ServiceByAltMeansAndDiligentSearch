@@ -68,15 +68,19 @@ subquestion: |
 fields:
   - Street address: users[0].address.address
     address autocomplete: True
+    maxlength: 35
   - Unit: users[0].address.unit
     required: False
+    maxlength: 15
   - City: users[0].address.city
+    maxlength: 32
   - State: users[0].address.state
     code: |
       states_list()
     default: MA      
   - Zip: users[0].address.zip
     required: False
+    maxlength: 11
 ---
 id: contact information
 question: |
@@ -88,11 +92,14 @@ subquestion: |
 fields:  
   - Mobile number: users[0].mobile_number
     required: False
+    maxlength: 37
   - Other phone number: users[0].phone_number
     required: False
+    maxlength: 37
   - Email address: users[0].email    
     datatype: email
     required: False
+    maxlength: 44
   - Other ways to reach you: users[0].other_contact_method
     input type: area
     required: False
