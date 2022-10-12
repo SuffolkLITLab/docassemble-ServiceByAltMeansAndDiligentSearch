@@ -1,13 +1,6 @@
 ---
 #comment: questions about the search only
 ---
-include:
-  - docassemble.MAVirtualCourt:basic-questions.yml
-  - user_information.yml
-  - about_the_case.yml
-  - alternative_means_diligent_search.yml
-  - review_screens.yml
----
 id: last contact
 question: |
   When is the last time you saw, heard from, or had contact with  ${ other_parties[0].name }?
@@ -52,7 +45,7 @@ question: |
 subquestion: |
   You have to upload this because you need to file a copy with the court.
 fields:
-  Attachment: record_request
+  Attachment: record_request.file
   datatype: file
 ---
 id: efforts taken

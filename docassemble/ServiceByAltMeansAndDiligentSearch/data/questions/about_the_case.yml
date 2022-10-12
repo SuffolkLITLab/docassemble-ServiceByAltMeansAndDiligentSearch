@@ -1,11 +1,4 @@
 ---
-include:
-  - docassemble.MAVirtualCourt:basic-questions.yml
-  - alternative_means_diligent_search.yml
-  - user_information.yml
-  - search_questions.yml
-  - review_screens.yml
----
 #comment: about the case
 ---
 id: open case
