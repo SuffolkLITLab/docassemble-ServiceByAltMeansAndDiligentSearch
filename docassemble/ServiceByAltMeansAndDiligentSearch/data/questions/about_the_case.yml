@@ -4,7 +4,9 @@
 id: open case
 question: | 
   Do you already have an open case with the Probate and Family Court?
-yesno: open_case
+fields:
+  - no label: open_case
+    datatype: yesnoradio
 ---
 id: docket number
 question: |
