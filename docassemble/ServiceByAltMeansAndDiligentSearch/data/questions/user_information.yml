@@ -4,7 +4,9 @@
 id: any other users
 question: |
   Are you an attorney
-yesno: is_attorney
+fields:
+  - no label: is_attorney
+    datatype: yesnoradio
 ---
 id: plaintiff name
 question:  |

@@ -45,8 +45,8 @@ question: |
 subquestion: |
   You have to upload this because you need to file a copy with the court.
 fields:
-  Attachment: record_request.file
-  datatype: file
+  - Attachment: record_request.file
+    datatype: file
 ---
 id: efforts taken
 question: |
