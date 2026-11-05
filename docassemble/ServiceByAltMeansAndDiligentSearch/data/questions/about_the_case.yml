@@ -23,9 +23,9 @@ question: |
   What is the name of your case?
 subquestion: |
   If you already had an open case with the court, use the name of that case here. If you are starting a new case, use **${ users[0].name.first} ${ users[0].name.last } v. ${ other_parties[0].name.first } ${ other_parties[0].name.last }**
-fields: 
-  no label: case_name
-  maxlength: 54
+fields:
+  - no label: case_name
+    maxlength: 54
 ---
 # id: case name logic
 # reconsider: True
@@ -96,12 +96,12 @@ fields:
     maxlength: 7
 ---
 code: |
-if address_unknown:
-  other_parties[0].address.address = ' '
-  other_parties[0].address.unit = ' '
-  other_parties[0].address.city = ' '
-  other_parties[0].address.state = ' ' 
-  other_parties[0].address.zip = ' '  
+  if address_unknown:
+    other_parties[0].address.address = ' '
+    other_parties[0].address.unit = ' '
+    other_parties[0].address.city = ' '
+    other_parties[0].address.state = ' '
+    other_parties[0].address.zip = ' '
 ---
 id: last lived at address
 question: |
